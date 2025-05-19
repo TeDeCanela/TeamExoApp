@@ -5,11 +5,10 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const UsuarioSchema = Schema({
     usuarioId: {
         type: Number,
-        required: true,
         unique: true
     },
     nombreUsuario: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -26,7 +25,7 @@ const UsuarioSchema = Schema({
         required: true
     },
     contrasena: {
-        type: Number
+        type: String
     },
     rol: {
         type: String,
@@ -36,6 +35,6 @@ const UsuarioSchema = Schema({
     }
 });
 
-UsuarioSchema.plugin(AutoIncrement, { inc_field: 'identificador' });
+UsuarioSchema.plugin(AutoIncrement, { inc_field: 'usuarioId' });
 
 module.exports = model('Usuario', UsuarioSchema);

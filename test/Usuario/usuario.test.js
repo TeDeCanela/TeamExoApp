@@ -1,6 +1,7 @@
 const { getUsuarios } = require('../../src/controladores/rest/Usuario');
 const Usuario = require('../../src/modelos/Usuario');
 const httpMocks = require('node-mocks-http');
+process.env.NODE_ENV = 'test';
 
 jest.mock('../../src/modelos/Usuario');
 

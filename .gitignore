@@ -44,3 +44,4 @@ bin/
 /node_modules
 /src/uploads
 /uploads
+/generated

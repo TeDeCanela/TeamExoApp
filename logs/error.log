@@ -1,2 +1,79 @@
 2025-05-18T00:10:40.365Z [ERROR]: Error al obtener usuarios: Error de DB
 2025-05-18T00:11:31.787Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T00:59:03.860Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T00:59:40.884Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:00:15.241Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:00:42.236Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:01:53.878Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:02:59.326Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:42:23.185Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:47:29.892Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:47:30.334Z [ERROR]: Error al agregar usuarios: Usuario validation failed: nombreUsuario: Cast to Number failed for value "nicotest" (type string) at path "nombreUsuario", contrasena: Cast to Number failed for value "$2b$10$uB/PzfmMrcubFHZHn.7DWuS47QmqlFTiMvRO3qQ04ZWlAkomsKxB2" (type string) at path "contrasena", usuarioId: Path `usuarioId` is required., rol: `cliente` is not a valid enum value for path `rol`.
+2025-05-18T01:47:30.481Z [ERROR]: Error al agregar usuarios: Usuario validation failed: nombreUsuario: Cast to Number failed for value "nicotest2" (type string) at path "nombreUsuario", contrasena: Cast to Number failed for value "$2b$10$iRgEU0QiNfRiX78P3zY3tOAMPmDGEphI2/Wwxo7ohe3i9R1EOOqw6" (type string) at path "contrasena", usuarioId: Path `usuarioId` is required., rol: `cliente` is not a valid enum value for path `rol`.
+2025-05-18T01:50:40.696Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:50:40.800Z [ERROR]: Error al agregar usuarios: Usuario validation failed: usuarioId: Path `usuarioId` is required.
+2025-05-18T01:50:40.939Z [ERROR]: Error al agregar usuarios: Usuario validation failed: usuarioId: Path `usuarioId` is required.
+2025-05-18T01:52:19.941Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:53:38.352Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T01:54:25.652Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:18:09.024Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:22:42.926Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:37:18.122Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:43:13.754Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:43:14.209Z [ERROR]: Error al agregar usuarios: Cannot read properties of null (reading 'seq')
+2025-05-18T02:44:12.779Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:44:54.081Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T02:48:04.811Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:01:38.209Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:05:30.226Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:12:32.591Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:16:49.368Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:19:06.722Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:19:44.018Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:20:12.863Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:21:46.696Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:23:25.028Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:24:23.542Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:25:00.910Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:25:19.879Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:27:00.009Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T15:41:07.149Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T18:12:53.763Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T18:15:46.497Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T18:16:59.071Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:13:43.749Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:20:58.501Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:26:47.771Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:30:50.123Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:56:09.488Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T19:58:43.569Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:05:16.488Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:07:39.022Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:09:15.415Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:14:49.191Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:18:48.661Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:19:17.234Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:22:05.087Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:26:49.210Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T20:54:25.860Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T22:03:48.614Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T22:19:46.478Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T22:31:46.201Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T22:34:27.953Z [ERROR]: Error al eliminar usuarios: Operation `usuarios.findOneAndDelete()` buffering timed out after 10000ms
+2025-05-18T22:35:11.628Z [ERROR]: Error al eliminar usuarios: Operation `usuarios.findOneAndDelete()` buffering timed out after 10000ms
+2025-05-18T22:37:04.864Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T22:40:54.618Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T23:35:30.905Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T23:40:02.413Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-18T23:41:18.341Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:06:35.584Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:09:04.267Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:12:53.638Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:19:28.694Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:20:50.683Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:26:39.127Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:36:35.803Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:41:14.191Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:41:55.733Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T00:44:20.193Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-05-19T01:11:08.796Z [ERROR]: Error al obtener usuarios: Error de DB
