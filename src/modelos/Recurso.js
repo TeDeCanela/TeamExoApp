@@ -11,7 +11,7 @@ const RecursoSchema = new Schema({
             type: Number,
             required: true
         },
-        tamaño: {
+        tamano: {
             type: Number,
             required: true
         },
