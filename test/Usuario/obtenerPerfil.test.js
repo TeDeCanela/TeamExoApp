@@ -2,7 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const app = require('../../src/app'); // ajusta si tu path es distinto
+const app = require('../../src/app');
 const Usuario = require('../../src/modelos/Usuario');
 const { JWT_SECRET } = require('../../src/config');
 

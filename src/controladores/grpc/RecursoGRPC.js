@@ -16,7 +16,6 @@ const crearRecurso = async (call, callback) => {
     } = call.request;
 
     try {
-        // 1. Validación básica
         if (!archivo || !archivo.length) {
             return callback(null, {
                 exito: false,
@@ -24,13 +23,11 @@ const crearRecurso = async (call, callback) => {
             });
         }
 
-        // 2. Crear carpeta si no existe
         const uploadsDir = path.join(__dirname, '../../../uploads');
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir, { recursive: true });
         }
 
-        // 3. Generar nombre de archivo según tipo
         let extension = tipo === 'Foto' ? 'jpg' :
             tipo === 'Audio' ? 'mp3' :
                 tipo === 'Video' ? 'mp4' : 'bin';
@@ -38,13 +35,10 @@ const crearRecurso = async (call, callback) => {
         const nombreArchivo = `recurso_${identificador}.${extension}`;
         const rutaArchivo = path.join(uploadsDir, nombreArchivo);
 
-        // 4. Guardar archivo binario
         fs.writeFileSync(rutaArchivo, archivo);
 
-        // 5. Construir URL local
         const url = `http://localhost:3000/uploads/${nombreArchivo}`;
 
-        // 6. Crear recurso específico
         let recurso;
 
         switch (tipo) {

@@ -7,6 +7,8 @@ const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
 const fs = require('fs');
+const Recurso = require('../../src/modelos/Recurso');
+
 const { Foto, Audio, Video } = require('../../src/modelos/Recurso');
 
 const PROTO_PATH = path.join(__dirname, '../../servicios/protos/recurso.proto');
@@ -29,7 +31,10 @@ beforeAll(async () => {
     await Audio.deleteMany({});
     await Video.deleteMany({});
 
-    client = new proto.RecursoService('localhost:50052', grpc.credentials.createInsecure());
+    client = new proto.RecursoService('localhost:50052', grpc.credentials.createInsecure(), {
+        'grpc.max_send_message_length': 50 * 1024 * 1024,
+        'grpc.max_receive_message_length': 50 * 1024 * 1024
+    });
 
     await new Promise((resolve, reject) => {
         client.waitForReady(Date.now() + 3000, (err) => {
@@ -160,5 +165,118 @@ describe('Pruebas de base de datos (Mongo)', () => {
 });
 
 describe('Pruebas validar que estan en archivos', () => {
+    test('Sube recurso tipo Audio con archivo real', (done) => {
+        const identificador = 1001;
+        const extension = 'mp3';
+        const nombreArchivo = `recurso_${identificador}.${extension}`;
+        const rutaGuardado = path.join(__dirname, '../../uploads', nombreArchivo);
+        const rutaArchivoReal = path.join(__dirname, '../Assets/reliable-safe-327618.mp3');
+
+        const archivoBinario = fs.readFileSync(rutaArchivoReal);
+
+        const nuevoAudio = {
+            tipo: 'Audio',
+            identificador,
+            formato: 3,
+            tamano: archivoBinario.length,
+            url: `http://localhost:3000/uploads/${nombreArchivo}`,
+            usuarioId: 99,
+            duracion: 180,
+            archivo: archivoBinario
+        };
+
+        client.CrearRecurso(nuevoAudio, async (err, response) => {
+            try {
+                expect(err).toBeNull();
+                expect(response.exito).toBe(true);
+
+                const existe = fs.existsSync(rutaGuardado);
+                expect(existe).toBe(true);
+
+                fs.unlinkSync(rutaGuardado); // limpieza
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    test('Sube recurso tipo Foto con archivo real', (done) => {
+        const identificador = 1002;
+        const extension = 'jpg';
+        const nombreArchivo = `recurso_${identificador}.${extension}`;
+        const rutaGuardado = path.join(__dirname, '../../uploads', nombreArchivo);
+        const rutaArchivoReal = path.join(__dirname, '../Assets/LaBillieElish.jpg');
+
+        const archivoBinario = fs.readFileSync(rutaArchivoReal);
+
+        const nuevaFoto = {
+            tipo: 'Foto',
+            identificador,
+            formato: 3,
+            tamano: archivoBinario.length,
+            url: `http://localhost:3000/uploads/${nombreArchivo}`,
+            usuarioId: 99,
+            duracion: 180,
+            resolucion: 1080,
+            archivo: archivoBinario
+        };
+
+        client.CrearRecurso(nuevaFoto, async (err, response) => {
+            try {
+                expect(err).toBeNull();
+                expect(response.exito).toBe(true);
+
+                const existe = fs.existsSync(rutaGuardado);
+                expect(existe).toBe(true);
+
+                fs.unlinkSync(rutaGuardado);
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    test('Sube recurso tipo Video con archivo real', (done) => {
+        const identificador = 1003;
+        const extension = 'mp4';
+        const nombreArchivo = `recurso_${identificador}.${extension}`;
+        const rutaGuardado = path.join(__dirname, '../../uploads', nombreArchivo);
+        const rutaArchivoReal = path.join(__dirname, '../Assets/file_example_MP4_480_1_5MG.mp4');
+
+        const archivoBinario = fs.readFileSync(rutaArchivoReal);
+
+        const nuevoVideo = {
+            tipo: 'Video',
+            identificador,
+            formato: 3,
+            tamano: archivoBinario.length,
+            url: `http://localhost:3000/uploads/${nombreArchivo}`,
+            usuarioId: 99,
+            duracion: 180,
+            resolucion: 1080,
+            archivo: archivoBinario
+        };
+        console.log(archivoBinario.length);
+
+        client.CrearRecurso(nuevoVideo, async (err, response) => {
+            try {
+                expect(err).toBeNull();
+                expect(response.exito).toBe(true);
+
+                const existe = fs.existsSync(rutaGuardado);
+                expect(existe).toBe(true);
+
+                fs.unlinkSync(rutaGuardado);
+
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 
 });

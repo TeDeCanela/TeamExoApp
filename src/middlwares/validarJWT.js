@@ -10,7 +10,7 @@ const validarJWT = (req, res, next) => {
 
     try {
         const payload = jwt.verify(token, JWT_SECRET || 'secreto');
-        req.usuario = payload; // ejemplo: { id, correo, rol }
+        req.usuario = payload;
         next();
     } catch (error) {
         return res.status(401).json({ msg: 'Token inválido o expirado' });

@@ -49,8 +49,6 @@ describe('DELETE /api/usuarios/:usuarioId - Eliminar Usuario', () => {
 
     test('Debe retornar 400 si no se proporciona usuarioId', async () => {
         const res = await request(app).delete('/api/usuarios/');
-
-        // Como esta ruta no existe, Jest puede devolver 404, así que mejor evitar testear sin :id
-        expect(res.statusCode).toBe(404); // Esto depende de cómo esté estructurado tu router
+        expect(res.statusCode).toBe(404);
     });
 });

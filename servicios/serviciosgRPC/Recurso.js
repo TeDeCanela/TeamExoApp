@@ -13,7 +13,11 @@ function createGrpcServer() {
     const grpcObject = grpc.loadPackageDefinition(packageDefinition);
     const proto = grpcObject.recurso;
 
-    grpcServer = new grpc.Server();
+    grpcServer = new grpc.Server({
+        'grpc.max_send_message_length': 50 * 1024 * 1024,
+        'grpc.max_receive_message_length': 50 * 1024 * 1024
+    });
+
     grpcServer.addService(proto.RecursoService.service, {
         CrearRecurso: crearRecurso
     });
