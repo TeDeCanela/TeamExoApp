@@ -23,7 +23,7 @@ const PublicacionSchema = Schema({
         required: true
     },
     usuarioId: {
-        type: String,
+        type: Number,
         required: true
     },
     fechaCreacion: {

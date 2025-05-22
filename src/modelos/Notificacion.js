@@ -9,7 +9,13 @@ const NotificacionSchema = new Schema({
     },
     usuarioId: {
         type: Number,
-        required: true
+        required: true,
+        index:true
+    },
+    tipo: {
+        type: String,
+        required: true,
+        enum: ['reaccion', 'comentario', 'seguimiento'] 
     },
     mensaje: {
         type: String,

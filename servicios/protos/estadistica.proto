@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package estadistica;
+
+service EstadisticasService {
+  rpc ObtenerEstadisticas (EstadisticasRequest) returns (EstadisticasResponse);
+}
+
+message EstadisticasRequest {}
+
+message EstadisticasResponse {
+  message TopPublicacion {
+    int32 publicacionId = 1;
+    int32 total = 2;
+  }
+
+  TopPublicacion topLikes = 1;
+  TopPublicacion topComentarios = 2;
+}

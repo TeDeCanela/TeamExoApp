@@ -1,15 +1,14 @@
-// server.js
-require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./app');
-const { MONGO_URI } = require('./config'); // ajusta según tu estructura
+const { MONGO_URI, PORT } = require('./config');
 
-const PORT = process.env.PORT || 3000;
-
-mongoose.connect(MONGO_URI)
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
     .then(() => {
         console.log('Conectado a MongoDB');
-        app.listen(PORT, () => {
+        app.listen(PORT || 3000, () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
     })
