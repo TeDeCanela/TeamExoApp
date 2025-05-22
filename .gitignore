@@ -42,6 +42,7 @@ bin/
 .DS_Store
 
 /node_modules
-/src/uploads
 /uploads
 /generated
+/test/Assets
+git-filter-repo/

@@ -44,10 +44,8 @@ describe("POST /api/usuarios - Actualizar Usuario", () => {
             rol: 'Fan'
         });
 
-        // Paso 2: Tomar su usuarioId autogenerado
         const id = nuevoUsuario.usuarioId;
 
-        // Paso 3: Hacer PUT con ese ID
         const res = await request(app)
             .put(`/api/usuarios/${id}`)
             .send({
@@ -59,7 +57,6 @@ describe("POST /api/usuarios - Actualizar Usuario", () => {
                 rol: 'Moderador'
             });
 
-        // Paso 4: Verificar respuesta
         expect(res.statusCode).toBe(200);
         expect(res.body.usuario).toBeDefined();
         expect(res.body.usuario.correo).toBe('nuevo@email.com');
@@ -67,7 +64,6 @@ describe("POST /api/usuarios - Actualizar Usuario", () => {
     });
 
     test('Debe rechazar si el correo ya está registrado por otro usuario', async () => {
-        // Usuario A con correo existente
         await new Usuario({
             usuarioId: 200,
             nombreUsuario: 'userA',
@@ -78,7 +74,6 @@ describe("POST /api/usuarios - Actualizar Usuario", () => {
             rol: 'Fan'
         }).save();
 
-        // Usuario B que va a intentar usar el mismo correo
         await new Usuario({
             usuarioId: 201,
             nombreUsuario: 'userB',
@@ -95,7 +90,7 @@ describe("POST /api/usuarios - Actualizar Usuario", () => {
                 nombreUsuario: 'userB',
                 nombre: 'Usuario B',
                 apellidos: 'Dos',
-                correo: 'correo@repetido.com', // ← ya lo tiene userA
+                correo: 'correo@repetido.com',
                 contrasena: '456',
                 rol: 'Moderador'
             });

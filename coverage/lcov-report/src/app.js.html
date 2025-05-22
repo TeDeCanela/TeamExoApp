@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -79,49 +79,46 @@
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
-const mongoose = require('mongoose');
+<span class="cline-any cline-yes">19x</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
+const path = require('path');
+const { swaggerUi, swaggerSpec } = require('./helpers/swagger');
 &nbsp;
 const app = express();
 app.use(express.json());
 &nbsp;
-// Conexión a Mongo solo si aún no estás conectada (ideal para pruebas también)
-const mongoDBURI = process.env.MONGO_URI || <span class="branch-1 cbranch-no" title="branch not covered" >'mongodb://localhost:27017/teamExoBD';</span>
-mongoose.connect(mongoDBURI, {})
-    .then(() =&gt; console.log('Conectado a MongoDB'))
-    .catch(<span class="fstat-no" title="function not covered" >er</span>r =&gt; <span class="cstat-no" title="statement not covered" >console.error('Error al conectar a MongoDB:', err))</span>;
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 &nbsp;
-// Rutas
-app.use('/api/usuarios', require('./rutas/Usuario'));
-// app.use('/api/login', require('./rutas/login'));
+app.use('/api/usuarios', require('../servicios/rutasREST/Usuario'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/recursos', require('../servicios/rutasREST/Recurso'));
+app.use('/api/reacciones', require('../servicios/rutasREST/Reaccion'));
+app.use('/api/comentarios', require('../servicios/rutasREST/Comentario'));
 &nbsp;
-module.exports = app;
-&nbsp;</pre></td></tr></table></pre>
+&nbsp;
+module.exports = app;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-18T15:27:00.509Z
+                at 2025-05-20T22:11:36.157Z
             </div>
         <script src="../prettify.js"></script>
         <script>

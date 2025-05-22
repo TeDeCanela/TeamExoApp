@@ -18,7 +18,6 @@ describe("POST /api/usuarios - Actualizar Contraseña", () => {
     });
 
     test('Debe actualizar la contraseña correctamente', async () => {
-        // Crear usuario
         const usuario = await Usuario.create({
             usuarioId: 1000,
             nombreUsuario: 'prueba',
@@ -38,7 +37,6 @@ describe("POST /api/usuarios - Actualizar Contraseña", () => {
         expect(res.statusCode).toBe(200);
         expect(res.body.msg).toMatch(/contraseña actualizada/i);
 
-        // Verifica que esté hasheada
         const usuarioActualizado = await Usuario.findOne({ usuarioId: usuario.usuarioId });
         expect(usuarioActualizado).toBeDefined();
         expect(usuarioActualizado.contrasena).not.toBe('nueva123');

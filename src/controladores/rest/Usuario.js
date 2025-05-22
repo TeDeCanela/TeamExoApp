@@ -87,12 +87,11 @@ async function emailExistExceptUserId(email, usuarioId) {
     try {
         const existe = await Usuario.findOne({
             correo: email,
-            usuarioId: { $ne: usuarioId } // $ne = not equal
+            usuarioId: { $ne: usuarioId }
         });
 
         return !!existe;
     } catch (error) {
-        logger.error('Error al verificar el correo (con excepción de ID):', error);
         throw new Error('Error interno del servidor');
     }
 }
@@ -106,9 +105,8 @@ const actualizarContrasena = async (req, res = response) => {
     }
 
     try {
-        console.log('🔍 Buscando usuario con usuarioId:', usuarioId);
+
         const existe = await Usuario.findOne({ usuarioId: parseInt(usuarioId) });
-        console.log('Resultado:', existe);
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(nuevaContrasena, salt);

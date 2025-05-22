@@ -1,7 +1,7 @@
 const Usuario = require('../../modelos/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../../config'); // o usar process.env.JWT_SECRET
+const { JWT_SECRET } = require('../../config');
 
 const login = async (call, callback) => {
     const { correo, contrasena } = call.request;
