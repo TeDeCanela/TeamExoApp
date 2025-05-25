@@ -11,7 +11,7 @@ const estadisticasController = require('../../src/controladores/rest/Estadistica
 
 /**
  * @swagger
- * /api/estadistica:
+ * /api/estadisticas/estadistica:
  *   get:
  *     summary: Obtener estadísticas generales
  *     tags: [Estadísticas]
