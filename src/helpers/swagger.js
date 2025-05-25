@@ -1,23 +1,42 @@
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'API de Plataforma Musical',
-            version: '1.0.0',
-            description: 'Documentación de la API para usuarios, recursos, reacciones y comentarios.',
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000/api',
-            },
-        ],
+const swaggerDefinition = {
+    openapi: '3.0.0',
+    info: {
+        title: 'API Principal',
+        version: '1.0.0',
+        description: 'Documentación de la API para usuarios, publicaciones, recursos, notificaciones, comentarios, reacciones y estadísticas.',
     },
-    apis: ['./src/rutasREST/*.js', './src/modelos/*.js'],
+    servers: [
+        {
+            url: 'http://localhost:3000',
+            description: 'Servidor de desarrollo',
+        },
+    ],
+    components: {
+        securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+            },
+        },
+    },
+    security: [
+        {
+            bearerAuth: [],
+        },
+    ],
 };
 
-const swaggerSpec = swaggerJsDoc(options);
+const path = require('path'); // <--- asegúrate de tener esto importado
 
-module.exports = { swaggerUi, swaggerSpec };
+const options = {
+    swaggerDefinition,
+    apis: [path.join(__dirname, '../../servicios/rutasREST/*.js')],
+};
+
+
+const swaggerSpec = swaggerJSDoc(options);
+
+module.exports = swaggerSpec;
