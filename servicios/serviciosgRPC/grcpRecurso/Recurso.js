@@ -2,13 +2,13 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
-const { crearRecurso } = require('../../src/controladores/grpc/RecursoGRPC');
-const { MONGO_URI } = require('../../src/config');
+const { crearRecurso, descargarRecurso } = require('../../../src/controladores/grpc/RecursoGRPC');
+const { MONGO_URI } = require('../../../src/config');
 
 let grpcServer;
 
 function createGrpcServer() {
-    const PROTO_PATH = path.join(__dirname, '../protos/recurso.proto');
+    const PROTO_PATH = path.join(__dirname, './recurso.proto');
     const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
     const grpcObject = grpc.loadPackageDefinition(packageDefinition);
     const proto = grpcObject.recurso;
@@ -19,7 +19,8 @@ function createGrpcServer() {
     });
 
     grpcServer.addService(proto.RecursoService.service, {
-        CrearRecurso: crearRecurso
+        CrearRecurso: crearRecurso,
+        DescargarRecurso: descargarRecurso
     });
 
     return { proto };
@@ -30,7 +31,7 @@ async function startGrpcServer() {
     createGrpcServer();
 
     return new Promise((resolve, reject) => {
-        grpcServer.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        grpcServer.bindAsync('0.0.0.0:50059', grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) return reject(err);
             grpcServer.start();
             console.log(`Servidor gRPC de Recurso corriendo en puerto ${port}`);

@@ -3,6 +3,18 @@ const bcrypt = require('bcrypt');
 const logger = require('../../helpers/logger');
 const Usuario = require('../../modelos/Usuario');
 
+/**
+ * @swagger
+ * /api/usuarios:
+ *   get:
+ *     summary: Obtener la lista de todos los usuarios
+ *     tags: [Usuarios]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios obtenida exitosamente
+ *       500:
+ *         description: Error del servidor
+ */
 const getUsuarios = async (req, res = response) => {
     try {
         const usuarios = await Usuario.find();
@@ -13,8 +25,47 @@ const getUsuarios = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/usuarios:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nombreUsuario
+ *               - nombre
+ *               - apellidos
+ *               - correo
+ *               - contrasena
+ *               - rol
+ *             properties:
+ *               nombreUsuario:
+ *                 type: string
+ *               nombre:
+ *                 type: string
+ *               apellidos:
+ *                 type: string
+ *               correo:
+ *                 type: string
+ *               contrasena:
+ *                 type: string
+ *               rol:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Usuario creado exitosamente
+ *       400:
+ *         description: El correo ya está registrado
+ *       500:
+ *         description: Error del servidor
+ */
 const agregarUsuario = async (req, res = response) => {
-
     const { nombreUsuario, nombre, apellidos, correo, contrasena, rol } = req.body;
     if (await emailExist(correo)) {
         return res.status(400).json({ msg: 'El correo ya está registrado' });
@@ -53,6 +104,46 @@ async function emailExist(email) {
     }
 }
 
+/**
+ * @swagger
+ * /api/usuarios/{usuarioId}:
+ *   put:
+ *     summary: Actualizar la información de un usuario
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombreUsuario:
+ *                 type: string
+ *               nombre:
+ *                 type: string
+ *               apellidos:
+ *                 type: string
+ *               correo:
+ *                 type: string
+ *               rol:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado exitosamente
+ *       400:
+ *         description: El correo ya está registrado a otro usuario
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
 const actualizarUsuario = async (req, res = response) => {
     const { usuarioId } = req.params;
     const { nombreUsuario, nombre, apellidos, correo, rol } = req.body;
@@ -82,7 +173,6 @@ const actualizarUsuario = async (req, res = response) => {
     }
 };
 
-
 async function emailExistExceptUserId(email, usuarioId) {
     try {
         const existe = await Usuario.findOne({
@@ -96,6 +186,39 @@ async function emailExistExceptUserId(email, usuarioId) {
     }
 }
 
+/**
+ * @swagger
+ * /api/usuarios/{usuarioId}/contrasena:
+ *   patch:
+ *     summary: Actualizar la contraseña de un usuario
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nuevaContrasena
+ *             properties:
+ *               nuevaContrasena:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada exitosamente
+ *       400:
+ *         description: La contraseña está vacía
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
 const actualizarContrasena = async (req, res = response) => {
     const { usuarioId } = req.params;
     const { nuevaContrasena } = req.body;
@@ -105,7 +228,6 @@ const actualizarContrasena = async (req, res = response) => {
     }
 
     try {
-
         const existe = await Usuario.findOne({ usuarioId: parseInt(usuarioId) });
 
         const salt = await bcrypt.genSalt(10);
@@ -128,6 +250,26 @@ const actualizarContrasena = async (req, res = response) => {
     }
 }
 
+/**
+ * @swagger
+ * /api/usuarios/{usuarioId}:
+ *   delete:
+ *     summary: Eliminar un usuario
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
 const eliminarUsuario = async (req, res = response) => {
     const { usuarioId } = req.params;
     if (!usuarioId) {
@@ -148,14 +290,30 @@ const eliminarUsuario = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/usuarios/perfil:
+ *   get:
+ *     summary: Obtener el perfil del usuario autenticado
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Perfil obtenido correctamente
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
 const obtenerPerfil = async (req, res = response) => {
-    const {id} = req.usuario; // viene del JWT decodificado
+    const { id } = req.usuario;
 
     try {
-        const usuario = await Usuario.findOne({usuarioId: id}).select('-contrasena');
+        const usuario = await Usuario.findOne({ usuarioId: id }).select('-contrasena');
 
         if (!usuario) {
-            return res.status(404).json({msg: 'Usuario no encontrado'});
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
         }
 
         res.json({
@@ -164,7 +322,7 @@ const obtenerPerfil = async (req, res = response) => {
         });
     } catch (error) {
         logger.error(`Error al obtener perfil: ${error.message}`);
-        res.status(500).json({msg: 'Error en el servidor al obtener el perfil'});
+        res.status(500).json({ msg: 'Error en el servidor al obtener el perfil' });
     }
 };
 

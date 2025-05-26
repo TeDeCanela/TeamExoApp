@@ -2,13 +2,13 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
-const { login, perfil } = require('../../src/controladores/grpc/UsuarioGRPC');
-const { MONGO_URI } = require('../../src/config');
+const { login, perfil } = require('../../../src/controladores/grpc/UsuarioGRPC');
+const { MONGO_URI } = require('../../../src/config');
 
 let grpcServer;
 
 function createGrpcServer() {
-    const PROTO_PATH = path.join(__dirname, '../protos/usuario.proto');
+    const PROTO_PATH = path.join(__dirname, './usuario.proto');
     const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
     const grpcObject = grpc.loadPackageDefinition(packageDefinition);
     const proto = grpcObject.usuario;
@@ -27,7 +27,7 @@ async function startGrpcServer() {
     createGrpcServer();
 
     return new Promise((resolve, reject) => {
-        grpcServer.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        grpcServer.bindAsync('0.0.0.0:50059', grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) return reject(err);
             grpcServer.start();
             resolve();

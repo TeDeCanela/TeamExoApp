@@ -43,7 +43,6 @@ const login = async (call, callback) => {
         });
 
     } catch (error) {
-        console.error('Error en login:', error);
         return callback({
             code: grpc.status.INTERNAL,
             message: 'Error interno del servidor'

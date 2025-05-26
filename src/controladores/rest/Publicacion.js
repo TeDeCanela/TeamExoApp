@@ -2,6 +2,41 @@ const { response } = require('express');
 const logger = require('../../helpers/logger');
 const Publicacion = require('../../modelos/Publicacion');
 
+/**
+ * @swagger
+ * /api/publicaciones:
+ *   post:
+ *     summary: Crear una nueva publicación
+ *     tags: [Publicaciones]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - titulo
+ *               - contenido
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               contenido:
+ *                 type: string
+ *               estado:
+ *                 type: string
+ *                 enum: [Publicado, Borrador]
+ *                 default: Borrador
+ *               usuarioId:
+ *                 type: integer
+ *                 default: 1
+ *     responses:
+ *       201:
+ *         description: Publicación creada exitosamente
+ *       400:
+ *         description: Datos incompletos
+ *       500:
+ *         description: Error del servidor
+ */
 const crearPublicacion = async (req, res = response) => {
     const { titulo, contenido, estado = 'Borrador', usuarioId = 1 } = req.body;
 
@@ -10,10 +45,9 @@ const crearPublicacion = async (req, res = response) => {
     }
 
     try {
-        // Crear primero para generar el ID autoincremental
         const count = await Publicacion.countDocuments();
         const nuevaPublicacion = new Publicacion({
-            identificador: count + 1, // Generación manual para pruebas
+            identificador: count + 1,
             titulo,
             contenido,
             estado,
@@ -31,28 +65,58 @@ const crearPublicacion = async (req, res = response) => {
         console.error('Error al crear publicación:', error);
         res.status(500).json({
             msg: 'Error en el servidor',
-            error: error.message // Solo para desarrollo
+            error: error.message
         });
     }
 };
 
+/**
+ * @swagger
+ * /api/publicaciones/{identificador}/eliminar:
+ *   patch:
+ *     summary: Eliminar (marcar como eliminada) una publicación como moderador o administrador
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: path
+ *         name: identificador
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Identificador de la publicación
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               usuarioId:
+ *                 type: integer
+ *               rol:
+ *                 type: string
+ *                 enum: [Moderador, Administrador]
+ *     responses:
+ *       200:
+ *         description: Publicación eliminada exitosamente
+ *       403:
+ *         description: Permiso denegado
+ *       404:
+ *         description: Publicación no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
 const eliminarPublicacionModerador = async (req, res = response) => {
     const { identificador } = req.params;
-    // Parámetros simplificados para pruebas
-    const usuarioRol = req.body.rol || req.query.rol; // Ahora viene en el body/query
+    const usuarioRol = req.body.rol || req.query.rol;
 
     try {
-        // Verificar si el usuario es moderador/admin
         if(usuarioRol !== 'Moderador' && usuarioRol !== 'Administrador') {
             return res.status(403).json({
                 msg: 'No tienes permisos para realizar esta acción'
             });
         }
 
-        // Buscar la publicación
-        const publicacion = await Publicacion.findOne({
-            identificador: Number(identificador)
-        });
+        const publicacion = await Publicacion.findOne({ identificador: Number(identificador) });
 
         if (!publicacion) {
             return res.status(404).json({
@@ -60,12 +124,11 @@ const eliminarPublicacionModerador = async (req, res = response) => {
             });
         }
 
-        // Cambiar el estado a "Eliminado"
         const publicacionEliminada = await Publicacion.findOneAndUpdate(
             { identificador: Number(identificador) },
             {
                 estado: 'Eliminado',
-                eliminadoPor: req.body.usuarioId || null, // Opcional
+                eliminadoPor: req.body.usuarioId || null,
                 fechaEliminacion: new Date()
             },
             { new: true }
@@ -84,25 +147,59 @@ const eliminarPublicacionModerador = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/publicaciones/buscar:
+ *   get:
+ *     summary: Buscar publicaciones por palabra clave, estado o categorías
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         schema:
+ *           type: string
+ *         description: Palabra clave para buscar en título, contenido o palabras clave
+ *       - in: query
+ *         name: categorias
+ *         schema:
+ *           type: string
+ *         description: Lista separada por comas de categorías
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *           enum: [Publicado, Borrador, Eliminado]
+ *           default: Publicado
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *     responses:
+ *       200:
+ *         description: Lista de publicaciones filtradas
+ *       500:
+ *         description: Error del servidor
+ */
 const buscarPublicaciones = async (req, res = response) => {
     const { query, categorias, estado = 'Publicado', limit = 10, page = 1 } = req.query;
 
     try {
-        // Construir el filtro de búsqueda
-        const filtro = {
-            estado
-        };
+        const filtro = { estado };
 
-        // Si hay categorías, las añadimos al filtro
         if (categorias) {
             filtro.categorias = {
                 $in: categorias.split(',')
             };
         }
 
-        // Si hay palabras clave, buscamos en título, contenido y palabras clave
         if (query) {
-            const regex = new RegExp(query, 'i'); // Búsqueda case insensitive
+            const regex = new RegExp(query, 'i');
             filtro.$or = [
                 { titulo: regex },
                 { contenido: regex },
@@ -110,14 +207,12 @@ const buscarPublicaciones = async (req, res = response) => {
             ];
         }
 
-        // Opciones de paginación
         const options = {
             limit: parseInt(limit),
             skip: (parseInt(page) - 1) * parseInt(limit),
-            sort: { fechaCreacion: -1 } // Ordenar por más reciente primero
+            sort: { fechaCreacion: -1 }
         };
 
-        // Ejecutar la búsqueda
         const publicaciones = await Publicacion.find(filtro, null, options);
         const total = await Publicacion.countDocuments(filtro);
 

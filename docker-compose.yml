@@ -1,0 +1,58 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  grpc-usuario:
+    build:
+      context: ./servicios/serviciosgRPC/grcpUsuario
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50059"
+    networks:
+      - app-network
+
+  grpc-reaccion:
+    build:
+      context: ./servicios/serviciosgRPC/grcpReaccion
+      dockerfile: Dockerfile
+    ports:
+      - "50052:50059"
+    networks:
+      - app-network
+
+  grpc-notificacion:
+    build:
+      context: ./servicios/serviciosgRPC/grcpNotificacion
+      dockerfile: Dockerfile
+    ports:
+      - "50053:50059"
+    networks:
+      - app-network
+
+  grpc-recurso:
+    build:
+      context: ./servicios/serviciosgRPC/grcpRecurso
+      dockerfile: Dockerfile
+    ports:
+      - "50054:50059"
+    networks:
+      - app-network
+
+  grpc-estadistica:
+    build:
+      context: ./servicios/serviciosgRPC/grcpEstadistica
+      dockerfile: Dockerfile
+    ports:
+      - "50055:50059"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mongo-data:

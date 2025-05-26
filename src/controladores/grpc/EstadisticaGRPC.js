@@ -1,12 +1,19 @@
-const grpc = require('@grpc/grpc-js'); // <--- ESTA LÍNEA es obligatoria
+const grpc = require('@grpc/grpc-js'); // Necesario para usar códigos de estado gRPC
 
 const Reaccion = require('../../modelos/Reaccion');
 const Comentario = require('../../modelos/Comentario');
 const Estadistica = require('../../modelos/Estadistica');
 
+/**
+ * Método gRPC que calcula estadísticas generales de interacción en la plataforma.
+ * Obtiene la publicación con más "likes" y la publicación con más comentarios.
+ * Las estadísticas también se almacenan en la base de datos para seguimiento.
+ *
+ * @param {import('@grpc/grpc-js').ServerUnaryCall<any, any>} call - Llamada gRPC entrante (sin parámetros)
+ * @param {import('@grpc/grpc-js').sendUnaryData<any>} callback - Función para enviar la respuesta o error al cliente
+ */
 async function obtenerEstadisticas(call, callback) {
     try {
-        // Publicación con más likes
         const topLikes = await Reaccion.aggregate([
             { $match: { tipo: 'like' } },
             { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
@@ -14,14 +21,12 @@ async function obtenerEstadisticas(call, callback) {
             { $limit: 1 }
         ]);
 
-        // Publicación con más comentarios
         const topComentarios = await Comentario.aggregate([
             { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
             { $sort: { total: -1 } },
             { $limit: 1 }
         ]);
 
-        // Guardar estadísticas (opcional)
         await Promise.all([
             Estadistica.findOneAndUpdate(
                 { tipo: 'top_likes' },
@@ -52,6 +57,7 @@ async function obtenerEstadisticas(call, callback) {
             }
         });
     } catch (error) {
+
         callback({
             code: grpc.status.INTERNAL,
             message: 'Error al obtener estadísticas'

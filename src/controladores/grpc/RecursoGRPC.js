@@ -94,4 +94,38 @@ const crearRecurso = async (call, callback) => {
     }
 };
 
-module.exports = { crearRecurso };
+const descargarRecurso = async (call, callback) => {
+    const { identificador, tipo } = call.request;
+
+    try {
+        let extension = tipo === 'Foto' ? 'jpg' :
+            tipo === 'Audio' ? 'mp3' :
+                tipo === 'Video' ? 'mp4' : 'bin';
+
+        const nombreArchivo = `recurso_${identificador}.${extension}`;
+        const rutaArchivo = path.join(__dirname, '../../../uploads', nombreArchivo);
+
+        if (!fs.existsSync(rutaArchivo)) {
+            return callback(null, {
+                exito: false,
+                mensaje: 'El recurso no existe'
+            });
+        }
+
+        const archivo = fs.readFileSync(rutaArchivo);
+
+        return callback(null, {
+            exito: true,
+            mensaje: 'Recurso descargado exitosamente',
+            archivo
+        });
+    } catch (error) {
+        console.error('Error al descargar recurso:', error);
+        return callback({
+            code: grpc.status.INTERNAL,
+            message: 'Error al descargar recurso'
+        });
+    }
+};
+
+module.exports = { crearRecurso, descargarRecurso };

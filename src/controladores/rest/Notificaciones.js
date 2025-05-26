@@ -2,6 +2,40 @@ const { response } = require('express');
 const Notificacion = require('../../modelos/Notificacion');
 const logger = require('../../helpers/logger');
 
+/**
+ * @swagger
+ * /api/notificaciones/{usuarioId}:
+ *   get:
+ *     summary: Obtener notificaciones de un usuario
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario
+ *       - in: query
+ *         name: leida
+ *         schema:
+ *           type: boolean
+ *         description: Filtrar por estado de lectura (true/false)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: "Número de notificaciones por página (default: 10)"
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: "Página a consultar (default: 1)"
+ *     responses:
+ *       200:
+ *         description: Lista paginada de notificaciones
+ *       500:
+ *         description: Error del servidor
+ */
 const obtenerNotificacionesUsuario = async (req, res = response) => {
     const { usuarioId } = req.params;
     const { leida, limit = 10, page = 1 } = req.query;
@@ -24,13 +58,9 @@ const obtenerNotificacionesUsuario = async (req, res = response) => {
             Notificacion.countDocuments(filtro)
         ]);
 
-        // Marcar como leídas si se están obteniendo las no leídas
         if (leida === 'false') {
             const ids = notificaciones.map(n => n._id);
-            await Notificacion.updateMany(
-                { _id: { $in: ids } },
-                { $set: { leida: true } }
-            );
+            await Notificacion.updateMany({ _id: { $in: ids } }, { $set: { leida: true } });
         }
 
         res.json({
@@ -48,6 +78,27 @@ const obtenerNotificacionesUsuario = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/notificaciones/{id}/leida:
+ *   patch:
+ *     summary: Marcar una notificación como leída
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la notificación
+ *     responses:
+ *       200:
+ *         description: Notificación marcada como leída
+ *       404:
+ *         description: Notificación no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
 const marcarComoLeida = async (req, res = response) => {
     try {
         const notificacion = await Notificacion.findOneAndUpdate(
@@ -67,6 +118,31 @@ const marcarComoLeida = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/notificaciones/marcar-multiples:
+ *   patch:
+ *     summary: Marcar múltiples notificaciones como leídas
+ *     tags: [Notificaciones]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *             example:
+ *               ids: ["66211b845fd6e1bcd88215ea", "66211b845fd6e1bcd88215eb"]
+ *     responses:
+ *       200:
+ *         description: Notificaciones marcadas como leídas
+ *       500:
+ *         description: Error del servidor
+ */
 const marcarMultiplesComoLeidas = async (req, res = response) => {
     try {
         const { ids } = req.body;
@@ -85,7 +161,27 @@ const marcarMultiplesComoLeidas = async (req, res = response) => {
     }
 };
 
-// Opcional: Método para eliminar notificación
+/**
+ * @swagger
+ * /api/notificaciones/{id}:
+ *   delete:
+ *     summary: Eliminar una notificación
+ *     tags: [Notificaciones]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la notificación
+ *     responses:
+ *       200:
+ *         description: Notificación eliminada correctamente
+ *       404:
+ *         description: Notificación no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
 const eliminarNotificacion = async (req, res = response) => {
     try {
         const eliminada = await Notificacion.findOneAndDelete({

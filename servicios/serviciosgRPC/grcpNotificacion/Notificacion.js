@@ -1,12 +1,12 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
-const { streamNotificaciones } = require('../../src/controladores/grpc/NotificacionGRPC');
+const { streamNotificaciones } = require('../../../src/controladores/grpc/NotificacionGRPC');
 
 let grpcServer;
 
 function createGrpcServer() {
-    const PROTO_PATH = path.join(__dirname, '../protos/notificacion.proto');
+    const PROTO_PATH = path.join(__dirname, './notificacion.proto');
     const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
     const grpcObject = grpc.loadPackageDefinition(packageDefinition);
     const proto = grpcObject.notificacion;
@@ -22,7 +22,7 @@ function createGrpcServer() {
 async function startGrpcServer() {
     createGrpcServer();
     return new Promise((resolve, reject) => {
-        grpcServer.bindAsync('0.0.0.0:50054', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        grpcServer.bindAsync('0.0.0.0:50059', grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) return reject(err);
             grpcServer.start();
             console.log(`Servidor gRPC Notificacion corriendo en puerto ${port}`);

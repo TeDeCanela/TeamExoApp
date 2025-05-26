@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 require('dotenv').config({ path: '.env.test' });
 
-const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/Recurso');
+const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/grcpRecurso/Recurso');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');

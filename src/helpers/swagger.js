@@ -5,9 +5,10 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'API de Plataforma Musical',
+            title: 'API de ExoAPP',
             version: '1.0.0',
-            description: 'Documentación de la API para usuarios, recursos, reacciones y comentarios.',
+            description: 'Documentación de la API para usuarios, recursos, reacciones,estadisticas,notificaciones,' +
+                ' , publicaciones y comentarios.',
         },
         servers: [
             {
@@ -15,7 +16,7 @@ const options = {
             },
         ],
     },
-    apis: ['./src/rutasREST/*.js', './src/modelos/*.js'],
+    apis: ['./servicios/rutasREST/*.js', './src/controladores/**/*.js', "./servicios/protos/*.js"],
 };
 
 const swaggerSpec = swaggerJsDoc(options);

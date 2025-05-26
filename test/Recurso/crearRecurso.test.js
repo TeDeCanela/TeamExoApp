@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 require('dotenv').config({ path: '.env.test' });
 
-const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/Recurso');
+const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/grcpRecurso/Recurso');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
@@ -11,7 +11,7 @@ const Recurso = require('../../src/modelos/Recurso');
 
 const { Foto, Audio, Video } = require('../../src/modelos/Recurso');
 
-const PROTO_PATH = path.join(__dirname, '../../servicios/protos/recurso.proto');
+const PROTO_PATH = path.join(__dirname, '../../servicios/serviciosgRPC/grcpRecurso/recurso.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -31,7 +31,7 @@ beforeAll(async () => {
     await Audio.deleteMany({});
     await Video.deleteMany({});
 
-    client = new proto.RecursoService('localhost:50052', grpc.credentials.createInsecure(), {
+    client = new proto.RecursoService('localhost:50059', grpc.credentials.createInsecure(), {
         'grpc.max_send_message_length': 50 * 1024 * 1024,
         'grpc.max_receive_message_length': 50 * 1024 * 1024
     });
