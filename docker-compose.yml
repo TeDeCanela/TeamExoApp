@@ -8,7 +8,7 @@ services:
       - mongo-data:/data/db
   grpc-usuario:
     build:
-      context: ./servicios/serviciosgRPC/grcpUsuario
+      context: .
       dockerfile: Dockerfile
     ports:
       - "50051:50059"
@@ -17,7 +17,7 @@ services:
 
   grpc-reaccion:
     build:
-      context: ./servicios/serviciosgRPC/grcpReaccion
+      context: .
       dockerfile: Dockerfile
     ports:
       - "50052:50059"
@@ -26,7 +26,7 @@ services:
 
   grpc-notificacion:
     build:
-      context: ./servicios/serviciosgRPC/grcpNotificacion
+      context: .
       dockerfile: Dockerfile
     ports:
       - "50053:50059"
@@ -35,7 +35,7 @@ services:
 
   grpc-recurso:
     build:
-      context: ./servicios/serviciosgRPC/grcpRecurso
+      context: .
       dockerfile: Dockerfile
     ports:
       - "50054:50059"
@@ -44,10 +44,36 @@ services:
 
   grpc-estadistica:
     build:
-      context: ./servicios/serviciosgRPC/grcpEstadistica
+      context: .
       dockerfile: Dockerfile
     ports:
       - "50055:50059"
+    networks:
+      - app-network
+
+  rest-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - rest-service
+      - grpc-usuario
+      - grpc-reaccion
+      - grpc-notificacion
+      - grpc-recurso
+      - grpc-estadistica
     networks:
       - app-network
 
