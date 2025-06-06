@@ -4,11 +4,11 @@ const app = require("../../src/app"); // Asegúrate de que sea la ruta correcta 
 const grpc = require("@grpc/grpc-js");
 
 // Mockeamos la función gRPC
-jest.mock("../../src/controladores/grpc/EstadisticaGRPC", () => ({
+jest.mock("../../servicios/serviciosgRPC/grcpEstadistica/controladores/EstadisticaGRPC", () => ({
     obtenerEstadisticas: jest.fn()
 }));
 
-const { obtenerEstadisticas } = require("../../src/controladores/grpc/EstadisticaGRPC");
+const { obtenerEstadisticas } = require("../../servicios/serviciosgRPC/grcpEstadistica/controladores/EstadisticaGRPC");
 
 process.env.NODE_ENV = "test";
 

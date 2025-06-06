@@ -4,7 +4,7 @@ const {
     crearPublicacion,
     eliminarPublicacionModerador,
     buscarPublicaciones
-} = require('../../src/controladores/rest/Publicacion');
+} = require('../../src/controladores/Publicacion');
 
 /**
  * @swagger

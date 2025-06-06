@@ -1,6 +1,6 @@
 const { response } = require('express');
-const { Recurso, Foto, Video, Audio } = require('../../modelos/Recurso');
-const logger = require('../../helpers/logger');
+const { Recurso, Foto, Video, Audio } = require('../modelos/Recurso');
+const logger = require('../helpers/logger');
 
 /**
  * @swagger

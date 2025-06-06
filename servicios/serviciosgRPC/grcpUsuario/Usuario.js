@@ -2,8 +2,8 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
-const { login, perfil } = require('../../../src/controladores/grpc/UsuarioGRPC');
-const { MONGO_URI } = require('../../../src/config');
+const { login, perfil } = require('./controladores/UsuarioGRPC');
+const { MONGO_URI } = require('./config');
 
 let grpcServer;
 

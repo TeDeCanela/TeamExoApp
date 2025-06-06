@@ -1,4 +1,4 @@
-const Notificacion = require('../../modelos/Notificacion');
+const Notificacion = require('../../../../src/modelos/Notificacion');
 
 /**
  * Almacena los streams activos organizados por ID de usuario.

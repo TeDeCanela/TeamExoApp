@@ -7,7 +7,7 @@ const {
     eliminarUsuario,
     actualizarContrasena,
     obtenerPerfil
-} = require('../../src/controladores/rest/Usuario');
+} = require('../../src/controladores/Usuario');
 const validarJWT = require('../../src/middlwares/validarJWT');
 
 /**

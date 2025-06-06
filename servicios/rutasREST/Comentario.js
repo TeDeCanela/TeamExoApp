@@ -5,7 +5,7 @@ const {
     obtenerComentariosPorPublicacion,
     actualizarComentario,
     eliminarComentario
-} = require('../../src/controladores/rest/Comentario');
+} = require('../../src/controladores/Comentario');
 
 /**
  * @swagger

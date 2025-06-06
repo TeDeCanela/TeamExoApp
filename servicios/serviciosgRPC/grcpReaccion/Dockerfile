@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-COPY ./package*.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm install --omit=dev
 
-EXPOSE 50059
+EXPOSE 3000
 
-CMD ["node", "Reaccion.js"]
+CMD ["node", "servicios/serviciosgRPC/grcpReaccion/Reaccion.js"]

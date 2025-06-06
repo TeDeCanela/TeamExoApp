@@ -1,6 +1,6 @@
 const { response } = require('express');
-const logger = require('../../helpers/logger');
-const Publicacion = require('../../modelos/Publicacion');
+const logger = require('../helpers/logger');
+const Publicacion = require('../modelos/Publicacion');
 
 /**
  * @swagger

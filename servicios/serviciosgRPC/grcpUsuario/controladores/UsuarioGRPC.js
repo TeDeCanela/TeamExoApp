@@ -1,7 +1,7 @@
-const Usuario = require('../../modelos/Usuario');
+const Usuario = require('../../../../src/modelos/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../../config');
+const { JWT_SECRET } = require('../../../../src/config');
 
 const login = async (call, callback) => {
     const { correo, contrasena } = call.request;

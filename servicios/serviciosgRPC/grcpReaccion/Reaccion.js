@@ -2,7 +2,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
-const { MONGO_URI } = require('../../../src/config');
+const { MONGO_URI } = require('./config');
 const { Reaccion } = require('../../../src/modelos/Reaccion');
 
 let grpcServer;

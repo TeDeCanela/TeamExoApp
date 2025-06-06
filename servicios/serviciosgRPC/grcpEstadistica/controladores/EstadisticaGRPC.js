@@ -1,8 +1,8 @@
 const grpc = require('@grpc/grpc-js'); // Necesario para usar códigos de estado gRPC
 
-const Reaccion = require('../../modelos/Reaccion');
-const Comentario = require('../../modelos/Comentario');
-const Estadistica = require('../../modelos/Estadistica');
+const Reaccion = require('../../../../src/modelos/Reaccion');
+const Comentario = require('../../../../src/modelos/Comentario');
+const Estadistica = require('../../../../src/modelos/Estadistica');
 
 /**
  * Método gRPC que calcula estadísticas generales de interacción en la plataforma.

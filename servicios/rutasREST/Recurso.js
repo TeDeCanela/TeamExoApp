@@ -7,7 +7,7 @@ const {
     eliminarRecurso,
     actualizarRecurso,
     buscarRecursos
-} = require('../../src/controladores/rest/Recurso');
+} = require('../../src/controladores/Recurso');
 
 /**
  * @swagger

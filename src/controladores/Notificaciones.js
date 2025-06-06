@@ -1,6 +1,6 @@
 const { response } = require('express');
-const Notificacion = require('../../modelos/Notificacion');
-const logger = require('../../helpers/logger');
+const Notificacion = require('../modelos/Notificacion');
+const logger = require('../helpers/logger');
 
 /**
  * @swagger

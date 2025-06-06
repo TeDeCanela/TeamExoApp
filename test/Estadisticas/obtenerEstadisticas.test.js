@@ -1,4 +1,4 @@
-const { obtenerEstadisticas } = require('../../src/controladores/grpc/EstadisticaGRPC');
+const { obtenerEstadisticas } = require('../../servicios/serviciosgRPC/grcpEstadistica/controladores/EstadisticaGRPC');
 const Reaccion = require('../../src/modelos/Reaccion');
 const Comentario = require('../../src/modelos/Comentario');
 const Estadistica = require('../../src/modelos/Estadistica');

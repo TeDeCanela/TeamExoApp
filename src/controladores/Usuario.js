@@ -1,7 +1,7 @@
 const { response } = require('express');
 const bcrypt = require('bcrypt');
-const logger = require('../../helpers/logger');
-const Usuario = require('../../modelos/Usuario');
+const logger = require('../helpers/logger');
+const Usuario = require('../modelos/Usuario');
 
 /**
  * @swagger

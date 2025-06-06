@@ -7,9 +7,16 @@ process.env.NODE_ENV = 'test';
 
 
 describe("POST /api/usuarios - Actualizar Contraseña", () => {
-
+    jest.setTimeout(15000);
     beforeAll(async () => {
-        await mongoose.connect(process.env.MONGO_URI);
+        try {
+            console.log('Intentando conectar a MongoDB:', process.env.MONGO_URI);
+            await mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo:27017/teamexodb_test');
+            console.log('Conexión exitosa');
+        } catch (err) {
+            console.error('Error al conectar a MongoDB:', err);
+            throw err;
+        }
     });
 
     afterAll(async () => {

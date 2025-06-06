@@ -1,0 +1,10 @@
+node_modules
+.git
+tests
+*.log
+coverage
+/node_modules
+/uploads
+/generated
+/test/Assets
+git-filter-repo/

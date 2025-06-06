@@ -5,7 +5,7 @@ const {
     obtenerReaccionesPorPublicacion,
     actualizarReaccion,
     eliminarReaccion,
-} = require('../../src/controladores/rest/Reaccion');
+} = require('../../src/controladores/Reaccion');
 
 /**
  * @swagger

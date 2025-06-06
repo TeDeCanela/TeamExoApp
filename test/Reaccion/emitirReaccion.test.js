@@ -7,7 +7,7 @@ const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const mongoose = require('mongoose');
 
-const { emitirReaccion } = require('../../src/controladores/grpc/ReaccionGRPC');
+const { emitirReaccion } = require('../../servicios/serviciosgRPC/grcpReaccion/controladores/ReaccionGRPC');
 
 test('emitirReaccion ignora si faltan datos', () => {
     const consola = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -18,7 +18,7 @@ test('emitirReaccion ignora si faltan datos', () => {
 
 test('emitirReaccion llama stream.write si hay suscriptores', () => {
     const streamMock = { write: jest.fn(), cancelled: false };
-    const { __setSuscriptores, emitirReaccion } = require('../../src/controladores/grpc/ReaccionGRPC');
+    const { __setSuscriptores, emitirReaccion } = require('../../servicios/serviciosgRPC/grcpReaccion/controladores/ReaccionGRPC');
 
     // Set manually (debes exponer esto si no lo haces ya)
     __setSuscriptores({

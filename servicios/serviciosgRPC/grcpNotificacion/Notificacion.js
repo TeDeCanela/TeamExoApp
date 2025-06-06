@@ -1,7 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
-const { streamNotificaciones } = require('../../../src/controladores/grpc/NotificacionGRPC');
+const { streamNotificaciones } = require('./controladores/NotificacionGRPC');
 
 let grpcServer;
 

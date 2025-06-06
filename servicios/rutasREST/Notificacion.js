@@ -5,7 +5,7 @@ const {
     marcarComoLeida,
     marcarMultiplesComoLeidas,
     eliminarNotificacion
-} = require('../../src/controladores/rest/Notificaciones');
+} = require('../../src/controladores/Notificaciones');
 
 /**
  * @swagger

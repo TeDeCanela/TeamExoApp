@@ -1,7 +1,7 @@
 const { response } = require('express');
-const Reaccion = require('../../modelos/Reaccion');
-const logger = require('../../helpers/logger');
-const { emitirReaccion } = require('../grpc/ReaccionGRPC');
+const Reaccion = require('../modelos/Reaccion');
+const logger = require('../helpers/logger');
+const { emitirReaccion } = require('../../servicios/serviciosgRPC/grcpReaccion/controladores/ReaccionGRPC');
 
 /**
  * @swagger

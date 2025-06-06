@@ -2,7 +2,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
-const { obtenerEstadisticas } = require('../../../src/controladores/grpc/EstadisticaGRPC');
+const { obtenerEstadisticas } = require('./src/controladores/grpc/EstadisticaGRPC');
 
 let grpcServer;
 

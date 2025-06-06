@@ -23,7 +23,6 @@
     "supertest": "^7.1.1"
   },
   "scripts": {
-    "prepare": "husky",
     "test": "cross-env NODE_ENV=test jest --runInBand"
   }
 }

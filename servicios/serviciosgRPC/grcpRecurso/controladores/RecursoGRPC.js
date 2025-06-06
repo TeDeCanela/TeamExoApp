@@ -1,4 +1,4 @@
-const { Recurso, Foto, Video, Audio } = require('../../modelos/Recurso');
+const { Recurso, Foto, Video, Audio } = require('../../../../src/modelos/Recurso');
 const fs = require('fs');
 const path = require('path');
 const grpc = require('@grpc/grpc-js');
@@ -23,7 +23,7 @@ const crearRecurso = async (call, callback) => {
             });
         }
 
-        const uploadsDir = path.join(__dirname, '../../../uploads');
+        const uploadsDir = path.resolve(__dirname, '../../../../uploads');
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir, { recursive: true });
         }

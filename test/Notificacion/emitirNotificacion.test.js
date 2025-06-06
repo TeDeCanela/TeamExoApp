@@ -13,7 +13,7 @@ jest.mock('../../src/modelos/Notificacion', () => {
     return MockNotificacion;
 });
 
-const { emitirNotificacion, __setSuscriptores } = require('../../src/controladores/grpc/NotificacionGRPC');
+const { emitirNotificacion, __setSuscriptores } = require('../../servicios/serviciosgRPC/grcpNotificacion/controladores/NotificacionGRPC');
 
 describe('Pruebas de Notificación gRPC', () => {
     beforeEach(() => {
