@@ -1,7 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
-const mongoose = require('mongoose');
+const mongoose   = require('mongoose');
 const { MONGO_URI } = require('./config');
 const { Reaccion } = require('../../../src/modelos/Reaccion');
 
@@ -45,7 +45,7 @@ async function startGrpcServer() {
     createGrpcServer();
 
     return new Promise((resolve, reject) => {
-        grpcServer.bindAsync('0.0.0.0:50059', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        grpcServer.bindAsync('0.0.0.0:3000', grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) return reject(err);
             grpcServer.start();
             console.log(`Servidor gRPC Reaccion corriendo en puerto ${port}`);

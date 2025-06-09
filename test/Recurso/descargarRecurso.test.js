@@ -31,7 +31,7 @@ beforeAll(async () => {
     await Audio.deleteMany({});
     await Video.deleteMany({});
 
-    client = new proto.RecursoService('localhost:50059', grpc.credentials.createInsecure(), {
+    client = new proto.RecursoService('localhost:3000', grpc.credentials.createInsecure(), {
         'grpc.max_send_message_length': 50 * 1024 * 1024,
         'grpc.max_receive_message_length': 50 * 1024 * 1024
     });

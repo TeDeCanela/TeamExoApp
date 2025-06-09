@@ -27,7 +27,7 @@ async function startGrpcServer() {
     createGrpcServer();
 
     return new Promise((resolve, reject) => {
-        grpcServer.bindAsync('0.0.0.0:50059', grpc.ServerCredentials.createInsecure(), (err, port) => {
+        grpcServer.bindAsync('0.0.0.0:3000', grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) return reject(err);
             grpcServer.start();
             resolve();

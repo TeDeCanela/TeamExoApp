@@ -39,7 +39,7 @@
             rol: 'Fan'
         });
 
-        client = new proto.UsuarioService('localhost:50059', grpc.credentials.createInsecure());
+        client = new proto.UsuarioService('localhost:3000', grpc.credentials.createInsecure());
 
         // Espera a que esté listo el cliente
         await new Promise((resolve, reject) => {

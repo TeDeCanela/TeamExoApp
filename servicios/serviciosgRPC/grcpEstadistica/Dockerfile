@@ -9,4 +9,4 @@ RUN npm install --omit=dev
 
 EXPOSE 3000
 
-CMD ["node", "servicios/serviciosgRPC/grcpEstadistica/Estadistica.js"]
+CMD ["node", "servicios/serviciosgRPC/grcpEstadistica/index.js"]

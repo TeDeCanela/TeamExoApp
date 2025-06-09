@@ -9,4 +9,4 @@ RUN npm install --omit=dev
 
 EXPOSE 3000
 
-CMD ["node", "servicios/serviciosgRPC/grcpReaccion/Reaccion.js"]
+CMD ["node", "servicios/serviciosgRPC/grcpReaccion/index.js"]

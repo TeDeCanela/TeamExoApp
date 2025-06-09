@@ -9,4 +9,4 @@ RUN npm install --omit=dev
 
 EXPOSE 3000
 
-CMD ["node", "servicios/serviciosgRPC/grcpRecurso/Recurso.js"]
+CMD ["node", "servicios/serviciosgRPC/grcpRecurso/index.js"]

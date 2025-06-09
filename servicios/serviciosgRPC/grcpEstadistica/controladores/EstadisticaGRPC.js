@@ -5,7 +5,7 @@ const Comentario = require('../../../../src/modelos/Comentario');
 const Estadistica = require('../../../../src/modelos/Estadistica');
 
 /**
- * Método gRPC que calcula estadísticas generales de interacción en la plataforma.
+ * Metodo gRPC que calcula estadísticas generales de interacción en la plataforma.
  * Obtiene la publicación con más "likes" y la publicación con más comentarios.
  * Las estadísticas también se almacenan en la base de datos para seguimiento.
  *
