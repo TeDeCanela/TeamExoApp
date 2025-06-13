@@ -14,7 +14,9 @@ const login = async (call, callback) => {
                 exito: false,
                 mensaje: 'Correo no encontrado',
                 nombreUsuario: '',
-                token: ''
+                token: '',
+                rol: '',
+                usuarioId: 0
             });
         }
 
@@ -25,7 +27,9 @@ const login = async (call, callback) => {
                 exito: false,
                 mensaje: 'Contraseña incorrecta',
                 nombreUsuario: '',
-                token: ''
+                token: '',
+                rol: '',
+                usuarioId: 0
             });
         }
 
@@ -39,7 +43,9 @@ const login = async (call, callback) => {
             exito: true,
             mensaje: 'Login exitoso',
             nombreUsuario: usuario.nombreUsuario,
-            token
+            token,
+            rol: usuario.rol,
+            usuarioId: usuario.usuarioId
         });
 
     } catch (error) {

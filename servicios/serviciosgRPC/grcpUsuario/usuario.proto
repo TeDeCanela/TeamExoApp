@@ -34,7 +34,9 @@ message LoginResponse {
   bool exito = 1;            // true si las credenciales son válidas
   string mensaje = 2;        // Mensaje informativo (ej. "Login exitoso" o "Credenciales incorrectas")
   string nombreUsuario = 3;  // Nombre de usuario si el login fue exitoso
-  string token = 4;          // JWT o token de autenticación
+  string token = 4;
+  string rol = 5;
+  int32 usuarioId = 6;// JWT o token de autenticación
 }
 
 /**

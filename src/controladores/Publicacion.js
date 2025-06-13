@@ -1,6 +1,7 @@
 const { response } = require('express');
 const logger = require('../helpers/logger');
 const Publicacion = require('../modelos/Publicacion');
+const { Recurso } = require('../../src/modelos/Recurso');
 
 /**
  * @swagger
@@ -29,6 +30,9 @@ const Publicacion = require('../modelos/Publicacion');
  *               usuarioId:
  *                 type: integer
  *                 default: 1
+ *               recursoId:
+ *                 type: integer
+ *                 description: ID del recurso asociado (opcional)
  *     responses:
  *       201:
  *         description: Publicación creada exitosamente
@@ -38,7 +42,7 @@ const Publicacion = require('../modelos/Publicacion');
  *         description: Error del servidor
  */
 const crearPublicacion = async (req, res = response) => {
-    const { titulo, contenido, estado = 'Borrador', usuarioId = 1 } = req.body;
+    const { titulo, contenido, estado = 'Borrador', usuarioId = 1, recursoId = null } = req.body;
 
     if (!titulo || !contenido) {
         return res.status(400).json({ msg: 'Título y contenido son requeridos' });
@@ -52,6 +56,7 @@ const crearPublicacion = async (req, res = response) => {
             contenido,
             estado,
             usuarioId,
+            recursoId,  // Agregamos el recursoId
             fechaCreacion: new Date()
         });
 
@@ -187,10 +192,14 @@ const eliminarPublicacionModerador = async (req, res = response) => {
  *         description: Error del servidor
  */
 const buscarPublicaciones = async (req, res = response) => {
-    const { query, categorias, estado = 'Publicado', limit = 10, page = 1 } = req.query;
+    const { query, categorias, estado = 'Publicado', limit = 10, page = 1, recursoId} = req.query;
 
     try {
         const filtro = { estado };
+
+        if (recursoId) {
+            filtro.recursoId = Number(recursoId);
+        }
 
         if (categorias) {
             filtro.categorias = {
@@ -230,8 +239,60 @@ const buscarPublicaciones = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/publicaciones/con-recursos:
+ *   get:
+ *     summary: Obtener publicaciones con sus recursos asociados
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: query
+ *         name: usuarioId
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lista de publicaciones con recursos
+ *       500:
+ *         description: Error del servidor
+ */
+const obtenerPublicacionesConRecursos = async (req, res = response) => {
+    try {
+        const { usuarioId } = req.query;
+        const filtro = usuarioId ? { usuarioId: Number(usuarioId) } : {};
+
+        // Obtener publicaciones como objetos simples
+        const publicaciones = await Publicacion.find(filtro).lean();
+
+        // Obtener recursos asociados
+        const resultados = await Promise.all(
+            publicaciones.map(async (pub) => {
+                let recurso = null;
+                if (pub.recursoId) {
+                    recurso = await Recurso.findOne({
+                        identificador: pub.recursoId
+                    }).lean() || null;
+                }
+                return {
+                    ...pub,
+                    recurso
+                };
+            })
+        );
+
+        return res.status(200).json(resultados);
+    } catch (error) {
+        console.error('Error en obtenerPublicacionesConRecursos:', error);
+        return res.status(500).json({
+            msg: 'Error al obtener publicaciones',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     crearPublicacion,
     eliminarPublicacionModerador,
-    buscarPublicaciones
+    buscarPublicaciones,
+    obtenerPublicacionesConRecursos
 };

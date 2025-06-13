@@ -422,3 +422,154 @@
 2025-06-09T20:12:15.091Z [ERROR]: Error al obtener comentarios: Fallo simulado
 2025-06-09T20:12:15.871Z [ERROR]: Error al obtener recursos por usuario: Error simulado
 2025-06-09T20:12:17.637Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:28:26.383Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T05:28:27.369Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T05:28:29.390Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T05:28:31.628Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T05:28:31.631Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T05:28:33.976Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T05:28:34.159Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:33:54.357Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T05:33:56.114Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T05:33:57.283Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T05:33:57.572Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T05:33:57.575Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T05:33:58.689Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T05:34:00.675Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:38:43.116Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T05:38:47.846Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T05:38:48.915Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T05:38:49.237Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T05:38:49.927Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T05:38:49.931Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T05:38:51.988Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:43:49.451Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T05:43:52.053Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T05:43:54.078Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T05:43:54.443Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T05:43:54.446Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T05:43:56.551Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T05:43:57.097Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:53:22.615Z [ERROR]: Error al obtener publicaciones: ReferenceError: Recurso is not defined
+2025-06-12T05:53:22.655Z [ERROR]: Error al obtener publicaciones: ReferenceError: Recurso is not defined
+2025-06-12T05:53:22.669Z [ERROR]: Error al obtener publicaciones: ReferenceError: Recurso is not defined
+2025-06-12T05:53:22.685Z [ERROR]: Error al obtener publicaciones: ReferenceError: Recurso is not defined
+2025-06-12T05:53:28.300Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T05:53:28.305Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T05:53:30.107Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T05:53:33.550Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T05:53:45.505Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T05:54:02.466Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T05:54:04.195Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T16:14:29.104Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T16:14:29.622Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T16:14:29.896Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T16:14:33.300Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T16:14:33.532Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T16:14:38.795Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T16:14:38.800Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T16:21:35.668Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T16:21:36.500Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T16:21:37.119Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T16:21:37.124Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T16:21:38.598Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T16:21:39.181Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T16:21:39.344Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T16:29:52.041Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T16:29:52.047Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T16:29:52.686Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T16:29:52.981Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T16:29:53.329Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T16:29:56.023Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T16:29:56.893Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T16:37:37.247Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T16:37:39.015Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T16:37:39.018Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T16:37:40.704Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T16:37:41.824Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T16:37:42.429Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T16:37:45.027Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:02:06.791Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:02:07.104Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:02:07.108Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:02:07.826Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:02:08.105Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:02:12.902Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:02:14.073Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:04:39.653Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:04:39.929Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:04:39.932Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:04:41.700Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:04:42.370Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:04:44.550Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:04:45.090Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:06:49.178Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:06:49.482Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:06:50.322Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:06:51.167Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:06:51.407Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:06:51.411Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:06:53.604Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:10:45.050Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:10:45.395Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:10:46.091Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:10:47.586Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:10:47.589Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:10:51.961Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:10:52.148Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:16:50.466Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:16:51.670Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:16:52.837Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:16:56.660Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:16:58.232Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:16:58.236Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:16:58.436Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:30:29.488Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:30:30.315Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:30:31.590Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:30:32.500Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:30:32.503Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:30:36.571Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:30:37.084Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:32:30.727Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:32:31.773Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:32:35.180Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:32:36.662Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:32:37.224Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:32:37.227Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:32:37.759Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:36:20.578Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:36:23.198Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:36:24.367Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:36:24.370Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:36:25.612Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:36:27.976Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:36:28.485Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:37:55.173Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:37:55.757Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:37:58.299Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:37:58.824Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:38:01.090Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:38:01.093Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:38:02.865Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:41:16.515Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:41:17.454Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:41:18.065Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:41:18.068Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:41:21.741Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:41:22.798Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:41:23.299Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:43:13.221Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:43:14.608Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:43:16.153Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:43:16.474Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:43:16.477Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:43:18.636Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:43:18.803Z [ERROR]: Error al obtener usuarios: Error de DB
+2025-06-12T17:50:02.795Z [ERROR]: Error al crear comentario: Comentario validation failed: texto: Path `texto` is required.
+2025-06-12T17:50:02.800Z [ERROR]: Error al obtener comentarios: Fallo simulado
+2025-06-12T17:50:05.193Z [ERROR]: Error al eliminar comentario: Error simulado al eliminar
+2025-06-12T17:50:05.778Z [ERROR]: Error al crear reacción: Reaccion validation failed: reaccionId: Path `reaccionId` is required., usuarioId: Path `usuarioId` is required.
+2025-06-12T17:50:06.414Z [ERROR]: Error al actualizar comentario: Error simulado al actualizar
+2025-06-12T17:50:07.920Z [ERROR]: Error al obtener recursos por usuario: Error simulado
+2025-06-12T17:50:09.694Z [ERROR]: Error al obtener usuarios: Error de DB
