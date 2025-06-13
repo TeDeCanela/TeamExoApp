@@ -2,6 +2,7 @@ const { Recurso, Foto, Video, Audio } = require('../../../../src/modelos/Recurso
 const fs = require('fs');
 const path = require('path');
 const grpc = require('@grpc/grpc-js');
+require('dotenv').config();
 
 const crearRecurso = async (call, callback) => {
     const {
@@ -10,12 +11,14 @@ const crearRecurso = async (call, callback) => {
         formato,
         tamano,
         usuarioId,
+        publicacionId,
         resolucion,
         duracion,
         archivo
     } = call.request;
 
     try {
+
         if (!archivo || !archivo.length) {
             return callback(null, {
                 exito: false,
@@ -34,10 +37,16 @@ const crearRecurso = async (call, callback) => {
 
         const nombreArchivo = `recurso_${identificador}.${extension}`;
         const rutaArchivo = path.join(uploadsDir, nombreArchivo);
-
         fs.writeFileSync(rutaArchivo, archivo);
+        if (!fs.existsSync(rutaArchivo)) {
+            return callback(null, {
+                exito: false,
+                mensaje: 'Error al guardar el archivo en disco'
+            });
+        }
 
-        const url = `http://localhost:3000/uploads/${nombreArchivo}`;
+        const HOST_BASE = process.env.PUBLIC_HOST || 'http://localhost:3000';
+        const url = `${HOST_BASE}/uploads/${nombreArchivo}`;
 
         let recurso;
 
@@ -49,6 +58,7 @@ const crearRecurso = async (call, callback) => {
                     tamano,
                     URL: url,
                     usuarioId,
+                    publicacionId,
                     resolucion
                 });
                 break;
@@ -59,6 +69,7 @@ const crearRecurso = async (call, callback) => {
                     tamano,
                     URL: url,
                     usuarioId,
+                    publicacionId,
                     resolucion
                 });
                 break;
@@ -69,10 +80,10 @@ const crearRecurso = async (call, callback) => {
                     tamano,
                     URL: url,
                     usuarioId,
+                    publicacionId,
                     duracion
                 });
                 break;
-            default:
                 return callback(null, {
                     exito: false,
                     mensaje: 'Tipo de recurso no válido'
@@ -85,8 +96,8 @@ const crearRecurso = async (call, callback) => {
             exito: true,
             mensaje: 'Recurso creado exitosamente'
         });
+
     } catch (error) {
-        console.error('Error al crear recurso:', error);
         return callback({
             code: grpc.status.INTERNAL,
             message: 'Error al guardar recurso'
@@ -120,7 +131,6 @@ const descargarRecurso = async (call, callback) => {
             archivo
         });
     } catch (error) {
-        console.error('Error al descargar recurso:', error);
         return callback({
             code: grpc.status.INTERNAL,
             message: 'Error al descargar recurso'

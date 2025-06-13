@@ -1,70 +1,124 @@
-const grpc = require('@grpc/grpc-js'); // Necesario para usar códigos de estado gRPC
-
+const Publicacion = require('../../../../src/modelos/Publicacion');
+const Usuario = require('../../../../src/modelos/Usuario');
 const Reaccion = require('../../../../src/modelos/Reaccion');
 const Comentario = require('../../../../src/modelos/Comentario');
-const Estadistica = require('../../../../src/modelos/Estadistica');
+const { Recurso } = require('../../../../src/modelos/Recurso');
+const Notificacion = require('../../../../src/modelos/Notificacion');
+const grpc = require('@grpc/grpc-js');
+const mongoose = require('mongoose');
 
-/**
- * Metodo gRPC que calcula estadísticas generales de interacción en la plataforma.
- * Obtiene la publicación con más "likes" y la publicación con más comentarios.
- * Las estadísticas también se almacenan en la base de datos para seguimiento.
- *
- * @param {import('@grpc/grpc-js').ServerUnaryCall<any, any>} call - Llamada gRPC entrante (sin parámetros)
- * @param {import('@grpc/grpc-js').sendUnaryData<any>} callback - Función para enviar la respuesta o error al cliente
- */
 async function obtenerEstadisticas(call, callback) {
     try {
-        const topLikes = await Reaccion.aggregate([
-            { $match: { tipo: 'like' } },
-            { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
-            { $sort: { total: -1 } },
-            { $limit: 1 }
+        const [
+            topLikes,
+            topComentarios,
+            totalPublicaciones,
+            diaTopPublicaciones,
+            usuarioTopPublicaciones,
+            recursosPorTipo,
+            usuarioTopReacciones,
+            usuarioTopComentarios,
+            notificacionesPendientes
+        ] = await Promise.all([
+            Reaccion.aggregate([
+                { $match: { tipo: 'like' } },
+                { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Comentario.aggregate([
+                { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Publicacion.countDocuments({ estado: 'Publicado' }),
+            Publicacion.aggregate([
+                { $match: { estado: 'Publicado' } },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$fechaCreacion" } },
+                        total: { $sum: 1 }
+                    }
+                },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Publicacion.aggregate([
+                { $group: { _id: "$usuarioId", total: { $sum: 1 } } },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Recurso.aggregate([
+                { $group: { _id: "$tipo", total: { $sum: 1 } } }
+            ]),
+            Reaccion.aggregate([
+                { $group: { _id: "$usuarioId", total: { $sum: 1 } } },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Comentario.aggregate([
+                { $group: { _id: "$usuarioId", total: { $sum: 1 } } },
+                { $sort: { total: -1 } },
+                { $limit: 1 }
+            ]),
+            Notificacion.countDocuments({ leida: false })
         ]);
 
-        const topComentarios = await Comentario.aggregate([
-            { $group: { _id: '$publicacionId', total: { $sum: 1 } } },
-            { $sort: { total: -1 } },
-            { $limit: 1 }
+        // Validación de arreglos
+        const topLikesArr = Array.isArray(topLikes) ? topLikes : [];
+        const topComentariosArr = Array.isArray(topComentarios) ? topComentarios : [];
+        const diaTopPublicacionesArr = Array.isArray(diaTopPublicaciones) ? diaTopPublicaciones : [];
+        const usuarioTopPublicacionesArr = Array.isArray(usuarioTopPublicaciones) ? usuarioTopPublicaciones : [];
+        const recursosPorTipoArr = Array.isArray(recursosPorTipo) ? recursosPorTipo : [];
+        const usuarioTopReaccionesArr = Array.isArray(usuarioTopReacciones) ? usuarioTopReacciones : [];
+        const usuarioTopComentariosArr = Array.isArray(usuarioTopComentarios) ? usuarioTopComentarios : [];
+
+        const publicacionTopLikes = topLikesArr[0]?._id
+            ? await Publicacion.findById(new mongoose.Types.ObjectId(topLikesArr[0]._id)).lean()
+            : null;
+
+        const publicacionTopComentarios = topComentariosArr[0]?._id
+            ? await Publicacion.findById(new mongoose.Types.ObjectId(topComentariosArr[0]._id)).lean()
+            : null;
+
+        const [usuarioPublicaciones, usuarioReacciones, usuarioComentarios] = await Promise.all([
+            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopPublicacionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopPublicacionesArr[0]._id) : null).lean(),
+            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopReaccionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopReaccionesArr[0]._id) : null).lean(),
+            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopComentariosArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopComentariosArr[0]._id) : null).lean()
         ]);
 
-        await Promise.all([
-            Estadistica.findOneAndUpdate(
-                { tipo: 'top_likes' },
-                {
-                    publicacionId: topLikes[0]?._id || null,
-                    cantidad: topLikes[0]?.total || 0
-                },
-                { upsert: true }
-            ),
-            Estadistica.findOneAndUpdate(
-                { tipo: 'top_comentarios' },
-                {
-                    publicacionId: topComentarios[0]?._id || null,
-                    cantidad: topComentarios[0]?.total || 0
-                },
-                { upsert: true }
-            )
-        ]);
+        const recursosPorTipoFormateados = recursosPorTipoArr.map(r => ({
+            tipo: r._id,
+            total: r.total
+        }));
 
         callback(null, {
             topLikes: {
-                publicacionId: topLikes[0]?._id || 0,
-                total: topLikes[0]?.total || 0
+                publicacionId: topLikesArr[0]?._id?.toString() || "0",
+                titulo: publicacionTopLikes?.titulo || "Desconocido",
+                total: topLikesArr[0]?.total || 0
             },
             topComentarios: {
-                publicacionId: topComentarios[0]?._id || 0,
-                total: topComentarios[0]?.total || 0
-            }
+                publicacionId: topComentariosArr[0]?._id?.toString() || "0",
+                titulo: publicacionTopComentarios?.titulo || "Desconocido",
+                total: topComentariosArr[0]?.total || 0
+            },
+            totalPublicaciones,
+            diaConMasPublicaciones: diaTopPublicacionesArr[0]?._id || "N/A",
+            publicacionesEnEseDia: diaTopPublicacionesArr[0]?.total || 0,
+            usuarioTopPublicaciones: usuarioPublicaciones?.nombre || "Desconocido",
+            recursosPorTipo: recursosPorTipoFormateados,
+            usuarioTopReacciones: usuarioReacciones?.nombre || "Desconocido",
+            usuarioTopComentarios: usuarioComentarios?.nombre || "Desconocido",
+            notificacionesPendientes
         });
     } catch (error) {
-
+        console.error("Error en obtenerEstadisticas:", error);
         callback({
             code: grpc.status.INTERNAL,
-            message: 'Error al obtener estadísticas'
+            message: 'Error al obtener estadísticas extendidas'
         });
     }
 }
 
-module.exports = {
-    obtenerEstadisticas
-};
+module.exports = { obtenerEstadisticas };

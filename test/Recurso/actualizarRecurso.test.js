@@ -16,6 +16,7 @@ describe('PUT /api/recursos/:id - Actualizar recurso por ID', () => {
             tamano: 1500,
             URL: 'http://localhost:3000/uploads/recurso_500.jpg',
             usuarioId: 1,
+            publicacionId: 2000,
             resolucion: 720,
             tipo: 'Foto'
         });

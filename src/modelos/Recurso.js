@@ -22,6 +22,11 @@ const RecursoSchema = new Schema({
         usuarioId: {
             type: Number,
             required: true
+        },
+        publicacionId: {
+            type: Number,
+            required: true,
+            ref: 'Publicacion'
         }
     },
     { discriminatorKey: 'tipo', collection: 'recursos' });

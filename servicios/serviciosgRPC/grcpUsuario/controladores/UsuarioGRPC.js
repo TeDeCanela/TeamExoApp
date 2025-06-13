@@ -2,6 +2,7 @@ const Usuario = require('../../../../src/modelos/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../../../../src/config');
+const grpc = require('@grpc/grpc-js');
 
 const login = async (call, callback) => {
     const { correo, contrasena } = call.request;
@@ -14,7 +15,8 @@ const login = async (call, callback) => {
                 exito: false,
                 mensaje: 'Correo no encontrado',
                 nombreUsuario: '',
-                token: ''
+                token: '',
+                usuarioId: 0
             });
         }
 
@@ -25,7 +27,8 @@ const login = async (call, callback) => {
                 exito: false,
                 mensaje: 'Contraseña incorrecta',
                 nombreUsuario: '',
-                token: ''
+                token: '',
+                usuarioId: 0
             });
         }
 
@@ -39,7 +42,8 @@ const login = async (call, callback) => {
             exito: true,
             mensaje: 'Login exitoso',
             nombreUsuario: usuario.nombreUsuario,
-            token
+            token,
+            usuarioId: usuario.usuarioId
         });
 
     } catch (error) {

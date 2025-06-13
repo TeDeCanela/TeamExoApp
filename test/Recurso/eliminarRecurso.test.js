@@ -16,6 +16,7 @@ describe('DELETE /api/recursos/:id - Eliminar recurso por ID', () => {
             tamano: 1500,
             URL: 'http://localhost:3000/uploads/recurso_888.jpg',
             usuarioId: 77,
+            publicacionId: 555,
             resolucion: 1080,
             tipo: 'Foto'
         });
@@ -32,6 +33,7 @@ describe('DELETE /api/recursos/:id - Eliminar recurso por ID', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body.msg).toBe('Recurso eliminado');
         expect(res.body.recurso.identificador).toBe(888);
+        expect(res.body.recurso.publicacionId).toBe(555);
 
         const recurso = await Recurso.findOne({ identificador: 888 });
         expect(recurso).toBeNull();
@@ -53,5 +55,4 @@ describe('DELETE /api/recursos/:id - Eliminar recurso por ID', () => {
 
         Recurso.findOneAndDelete.mockRestore();
     });
-
 });

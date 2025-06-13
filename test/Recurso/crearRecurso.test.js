@@ -1,5 +1,6 @@
 process.env.NODE_ENV = 'test';
 require('dotenv').config({ path: '.env.test' });
+const HOST = process.env.PUBLIC_HOST || 'http://localhost:3000';
 
 const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/grcpRecurso/Recurso');
 const grpc = require('@grpc/grpc-js');
@@ -61,6 +62,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
             tamano: 2048,
             url: 'http://example.com/foto.jpg',
             usuarioId: 1,
+            publicacionId: 999,
             resolucion: 1080,
             archivo: Buffer.from('contenido de prueba', 'utf-8')
         };
@@ -72,7 +74,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
 
                 const foto = await Foto.findOne({ identificador: 101 });
                 expect(foto).not.toBeNull();
-                expect(foto.URL).toBe('http://localhost:3000/uploads/recurso_101.jpg');
+                expect(foto.URL).toBe(`${HOST}/uploads/recurso_101.jpg`);
                 expect(foto.resolucion).toBe(1080);
 
                 done();
@@ -90,6 +92,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
             tamano: 4096,
             url: 'http://example.com/audio.mp3',
             usuarioId: 3,
+            publicacionId: 999,
             duracion: 180,
             archivo: Buffer.from('contenido de prueba', 'utf-8')
         };
@@ -101,7 +104,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
 
                 const audio = await Audio.findOne({ identificador: 202 });
                 expect(audio).not.toBeNull();
-                expect(audio.URL).toBe('http://localhost:3000/uploads/recurso_202.mp3');
+                expect(audio.URL).toBe(`${HOST}/uploads/recurso_202.mp3`);
                 expect(audio.duracion).toBe(180);
 
                 done();
@@ -119,6 +122,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
             tamano: 8192,
             url: 'http://example.com/video.mp4',
             usuarioId: 4,
+            publicacionId: 999,
             resolucion: 1920,
             archivo: Buffer.from('contenido de prueba', 'utf-8')
         };
@@ -130,7 +134,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
 
                 const video = await Video.findOne({ identificador: 303 });
                 expect(video).not.toBeNull();
-                expect(video.URL).toBe('http://localhost:3000/uploads/recurso_303.mp4');
+                expect(video.URL).toBe(`${HOST}/uploads/recurso_303.mp4`);
                 expect(video.resolucion).toBe(1920);
 
                 done();
@@ -148,6 +152,7 @@ describe('Pruebas de base de datos (Mongo)', () => {
             tamano: 500,
             url: 'http://example.com/file.docx',
             usuarioId: 2,
+            publicacionId: 999,
             archivo: Buffer.from('algo', 'utf-8')
         };
 
@@ -181,6 +186,7 @@ describe('Pruebas validar que estan en archivos', () => {
             tamano: archivoBinario.length,
             url: `http://localhost:3000/uploads/${nombreArchivo}`,
             usuarioId: 99,
+            publicacionId: 999,
             duracion: 180,
             archivo: archivoBinario
         };
@@ -216,8 +222,9 @@ describe('Pruebas validar que estan en archivos', () => {
             identificador,
             formato: 3,
             tamano: archivoBinario.length,
-            url: `http://localhost:3000/uploads/${nombreArchivo}`,
+            url: `${HOST}/uploads/${nombreArchivo}`,
             usuarioId: 99,
+            publicacionId: 999,
             duracion: 180,
             resolucion: 1080,
             archivo: archivoBinario
@@ -256,6 +263,7 @@ describe('Pruebas validar que estan en archivos', () => {
             tamano: archivoBinario.length,
             url: `http://localhost:3000/uploads/${nombreArchivo}`,
             usuarioId: 99,
+            publicacionId: 999,
             duracion: 180,
             resolucion: 1080,
             archivo: archivoBinario

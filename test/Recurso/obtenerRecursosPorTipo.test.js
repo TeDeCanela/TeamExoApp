@@ -6,36 +6,41 @@ const { Recurso } = require('../../src/modelos/Recurso');
 process.env.NODE_ENV = 'test';
 
 describe('GET /api/recursos/tipo/:tipo - Obtener recursos por tipo', () => {
+    const usuarioDePrueba = 42;
     beforeAll(async () => {
         await mongoose.connect(process.env.MONGO_URI);
         await Recurso.deleteMany({});
 
         await Recurso.create([
             {
-                identificador: 10,
+                identificador: 1,
                 formato: 1,
                 tamano: 500,
-                URL: 'http://localhost:3000/uploads/recurso_10.jpg',
-                usuarioId: 1,
+                URL: 'http://localhost:3000/uploads/recurso_1.jpg',
+                usuarioId: usuarioDePrueba,
                 resolucion: 720,
+                publicacionId: 1001,
                 tipo: 'Foto'
             },
             {
-                identificador: 11,
+                identificador: 2,
                 formato: 2,
                 tamano: 3000,
-                URL: 'http://localhost:3000/uploads/recurso_11.mp3',
-                usuarioId: 2,
+                URL: 'http://localhost:3000/uploads/recurso_2.mp3',
+                usuarioId: usuarioDePrueba,
                 duracion: 180,
+                publicacionId: 1002,
                 tipo: 'Audio'
             },
             {
-                identificador: 12,
+                identificador: 3,
                 formato: 1,
                 tamano: 900,
-                URL: 'http://localhost:3000/uploads/recurso_12.jpg',
-                usuarioId: 1,
+                URL: 'http://localhost:3000/uploads/recurso_3.jpg',
+                usuarioId: 99,
+                usuarioId: usuarioDePrueba,
                 resolucion: 1080,
+                publicacionId: 1003,
                 tipo: 'Foto'
             }
         ]);

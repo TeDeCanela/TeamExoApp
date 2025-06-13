@@ -63,12 +63,14 @@
                 expect(response.exito).toBe(true);
                 expect(response.nombreUsuario).toBe('nicotest');
                 expect(response.token).toBeDefined();
+                expect(response.usuarioId).toBe(1); // ← Verifica el usuarioId
                 done();
             } catch (e) {
                 done(e);
             }
         });
     });
+
 
     test('Login falla con correo incorrecto', (done) => {
         client.Login({ correo: 'correo_invalido@correo.com', contrasena: 'clave123' }, (err, response) => {

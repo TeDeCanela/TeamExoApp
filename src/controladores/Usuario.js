@@ -146,7 +146,7 @@ async function emailExist(email) {
  */
 const actualizarUsuario = async (req, res = response) => {
     const { usuarioId } = req.params;
-    const { nombreUsuario, nombre, apellidos, correo, rol } = req.body;
+    const { nombreUsuario, nombre, apellidos, correo } = req.body;
 
     if (await emailExistExceptUserId(correo, usuarioId)) {
         return res.status(400).json({ msg: 'El correo ya está registrado a otro usuario' });
@@ -155,7 +155,7 @@ const actualizarUsuario = async (req, res = response) => {
     try {
         const updatedUsuario = await Usuario.findOneAndUpdate(
             { usuarioId: parseInt(usuarioId) },
-            { nombreUsuario, nombre, apellidos, correo, rol },
+            { nombreUsuario, nombre, apellidos, correo },
             { new: true }
         );
 

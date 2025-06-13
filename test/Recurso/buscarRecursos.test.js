@@ -18,6 +18,7 @@ describe('GET /api/recursos/buscar - Buscar recursos por filtros', () => {
                 tamano: 1500,
                 URL: 'http://localhost:3000/uploads/foto1.jpg',
                 usuarioId: 1,
+                publicacionId: 1001,
                 resolucion: 720
             },
             {
@@ -27,6 +28,7 @@ describe('GET /api/recursos/buscar - Buscar recursos por filtros', () => {
                 tamano: 2500,
                 URL: 'http://localhost:3000/uploads/foto2.jpg',
                 usuarioId: 1,
+                publicacionId: 1002,
                 resolucion: 1080
             },
             {
@@ -36,6 +38,7 @@ describe('GET /api/recursos/buscar - Buscar recursos por filtros', () => {
                 tamano: 3000,
                 URL: 'http://localhost:3000/uploads/audio1.mp3',
                 usuarioId: 2,
+                publicacionId: 1003,
                 duracion: 180
             }
         ]);

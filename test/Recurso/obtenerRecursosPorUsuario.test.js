@@ -20,6 +20,7 @@ describe('GET /api/recursos/usuario/:usuarioId - Obtener recursos por usuario', 
                 URL: 'http://localhost:3000/uploads/recurso_1.jpg',
                 usuarioId: usuarioDePrueba,
                 resolucion: 720,
+                publicacionId: 1001,
                 tipo: 'Foto'
             },
             {
@@ -29,6 +30,7 @@ describe('GET /api/recursos/usuario/:usuarioId - Obtener recursos por usuario', 
                 URL: 'http://localhost:3000/uploads/recurso_2.mp3',
                 usuarioId: usuarioDePrueba,
                 duracion: 180,
+                publicacionId: 1002,
                 tipo: 'Audio'
             },
             {
@@ -38,6 +40,7 @@ describe('GET /api/recursos/usuario/:usuarioId - Obtener recursos por usuario', 
                 URL: 'http://localhost:3000/uploads/recurso_3.jpg',
                 usuarioId: 99,
                 resolucion: 1080,
+                publicacionId: 1003,
                 tipo: 'Foto'
             }
         ]);
@@ -57,6 +60,7 @@ describe('GET /api/recursos/usuario/:usuarioId - Obtener recursos por usuario', 
 
         for (const recurso of res.body) {
             expect(recurso.usuarioId).toBe(usuarioDePrueba);
+            expect(recurso).toHaveProperty('publicacionId');
         }
     });
 
@@ -65,6 +69,7 @@ describe('GET /api/recursos/usuario/:usuarioId - Obtener recursos por usuario', 
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual([]);
     });
+
     test('GET /api/recursos/usuario/:id - Error simulado', async () => {
         jest.spyOn(Recurso, 'find').mockImplementation(() => {
             throw new Error('Error simulado');

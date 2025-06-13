@@ -1,3 +1,5 @@
+version: "3"
+
 services:
   mongo:
     image: mongo:6.0
@@ -8,6 +10,7 @@ services:
       - mongo-data:/data/db
     networks:
       - app-network
+
   grpc-usuario:
     build:
       context: .
@@ -51,6 +54,8 @@ services:
       - app-network
     env_file:
       - .env
+    volumes:
+      - ./uploads:/app/uploads
 
   grpc-estadistica:
     build:
@@ -62,6 +67,7 @@ services:
       - app-network
     env_file:
       - .env
+
   rest-service:
     build:
       context: .
@@ -72,7 +78,8 @@ services:
       - app-network
     env_file:
       - .env
-
+    volumes:
+      - recurso-uploads:/app/uploads
 
   nginx:
     image: nginx:1.21.1-alpine
@@ -80,6 +87,7 @@ services:
       - "80:80"
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./uploads:/app/uploads
     depends_on:
       - rest-service
       - grpc-usuario
@@ -95,3 +103,4 @@ networks:
 
 volumes:
   mongo-data:
+  recurso-uploads:

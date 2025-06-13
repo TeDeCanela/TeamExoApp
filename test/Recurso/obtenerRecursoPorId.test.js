@@ -16,13 +16,13 @@ describe('GET /api/recursos/:id - Obtener recurso por ID', () => {
     });
 
     test('Debería devolver el recurso correctamente si existe', async () => {
-        // Inserta un recurso directamente
         await Recurso.create({
             identificador: 999,
             formato: 1,
             tamano: 1234,
             URL: 'http://localhost:3000/uploads/recurso_999.jpg',
             usuarioId: 42,
+            publicacionId: 321,
             resolucion: 1080,
             tipo: 'Foto'
         });

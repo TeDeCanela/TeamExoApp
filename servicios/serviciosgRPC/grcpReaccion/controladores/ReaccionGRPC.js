@@ -11,7 +11,7 @@ const suscriptores = {};
  * Guarda el stream abierto para que posteriormente se puedan enviar notificaciones
  * cuando alguien reaccione a la publicación.
  *
- * Este método es invocado por gRPC cuando un cliente ejecuta `StreamReacciones`.
+ * Este metodo es invocado por gRPC cuando un cliente ejecuta `StreamReacciones`.
  *
  * @param {import('@grpc/grpc-js').ServerWritableStream<{ publicacionId: number }, Object>} call - Stream del cliente que recibe notificaciones
  */
@@ -72,7 +72,7 @@ function emitirReaccion(reaccion) {
 }
 
 /**
- * Método de utilidad para pruebas unitarias.
+ * Mtodo de utilidad para pruebas unitarias.
  * Permite sobrescribir el mapa de suscriptores manualmente.
  *
  * @param {Object<string, import('@grpc/grpc-js').ServerWritableStream[]>} map - Nuevo mapa de suscriptores
