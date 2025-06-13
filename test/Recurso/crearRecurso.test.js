@@ -158,9 +158,9 @@ describe('Pruebas de base de datos (Mongo)', () => {
 
         client.CrearRecurso(recursoInvalido, (err, response) => {
             try {
-                expect(err).toBeNull();
-                expect(response.exito).toBe(false);
-                expect(response.mensaje).toBe('Tipo de recurso no válido');
+                expect(err).not.toBeNull();
+                expect(err.code).toBe(grpc.status.INTERNAL);
+                expect(err.message).toContain("Error al guardar recurso");
                 done();
             } catch (e) {
                 done(e);
