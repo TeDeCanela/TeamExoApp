@@ -1,6 +1,5 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const path = require('path');
 
 const options = {
     definition: {
@@ -17,25 +16,9 @@ const options = {
             },
         ],
     },
-    security: [
-        {
-            bearerAuth: [],
-        },
-    ],
     apis: ['./servicios/rutasREST/*.js', './src/controladores/**/*.js', "./servicios/protos/*.js"],
 };
 
 const swaggerSpec = swaggerJsDoc(options);
 
-const options = {
-    swaggerDefinition,
-    apis: [path.join(__dirname, '../../servicios/rutasREST/*.js')],
-};
-
-
-const swaggerSpec = swaggerJSDoc(options);
-
-module.exports = {
-    swaggerUi,
-    swaggerSpec,
-};
+module.exports = { swaggerUi, swaggerSpec };
