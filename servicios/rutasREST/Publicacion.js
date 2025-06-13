@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {
+const{
     crearPublicacion,
     eliminarPublicacionModerador,
-    buscarPublicaciones
+    buscarPublicaciones,
+    obtenerPublicacionesConRecursos
 } = require('../../src/controladores/Publicacion');
 
 /**
@@ -123,5 +124,39 @@ router.delete('/:identificador', eliminarPublicacionModerador);
  *         description: Error del servidor
  */
 router.get('/', buscarPublicaciones);
+
+/**
+ * @swagger
+ * /api/publicaciones/con-recursos:
+ *   get:
+ *     summary: Obtener publicaciones con sus recursos asociados
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: query
+ *         name: usuarioId
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario para filtrar sus publicaciones (opcional)
+ *     responses:
+ *       200:
+ *         description: Lista de publicaciones con sus recursos asociados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   titulo:
+ *                     type: string
+ *                   contenido:
+ *                     type: string
+ *                   recurso:
+ *                     type: object
+ *                     description: Recurso asociado (si existe)
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/con-recursos', obtenerPublicacionesConRecursos);
 
 module.exports = router;
