@@ -5,13 +5,13 @@ const {
     obtenerComentariosPorPublicacion,
     actualizarComentario,
     eliminarComentario
-} = require('../../src/controladores/rest/Comentario');
+} = require('../../src/controladores/Comentario');
 
 /**
  * @swagger
  * tags:
  *   name: Comentarios
- *   description: Operaciones relacionadas con los comentarios en publicaciones
+ *   description: Endpoints para gestionar comentarios
  */
 
 /**
@@ -27,17 +27,17 @@ const {
  *           schema:
  *             type: object
  *             properties:
- *               usuarioId:
- *                 type: number
+ *               comentarioId:
+ *                 type: integer
  *               publicacionId:
- *                 type: number
- *               mensaje:
+ *                 type: integer
+ *               usuarioId:
+ *                 type: integer
+ *               texto:
  *                 type: string
  *     responses:
  *       201:
  *         description: Comentario creado exitosamente
- *       400:
- *         description: Datos inválidos
  *       500:
  *         description: Error del servidor
  */
@@ -47,20 +47,18 @@ router.post('/', crearComentario);
  * @swagger
  * /api/comentarios/publicacion/{id}:
  *   get:
- *     summary: Obtener comentarios de una publicación
+ *     summary: Obtener comentarios por ID de publicación
  *     tags: [Comentarios]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: integer
  *         description: ID de la publicación
  *     responses:
  *       200:
  *         description: Lista de comentarios
- *       404:
- *         description: Publicación no encontrada
  *       500:
  *         description: Error del servidor
  */
@@ -77,8 +75,8 @@ router.get('/publicacion/:id', obtenerComentariosPorPublicacion);
  *         name: comentarioId
  *         required: true
  *         schema:
- *           type: number
- *         description: ID del comentario
+ *           type: integer
+ *         description: ID del comentario a actualizar
  *     requestBody:
  *       required: true
  *       content:
@@ -86,11 +84,11 @@ router.get('/publicacion/:id', obtenerComentariosPorPublicacion);
  *           schema:
  *             type: object
  *             properties:
- *               mensaje:
+ *               texto:
  *                 type: string
  *     responses:
  *       200:
- *         description: Comentario actualizado exitosamente
+ *         description: Comentario actualizado
  *       404:
  *         description: Comentario no encontrado
  *       500:
@@ -109,11 +107,11 @@ router.put('/:comentarioId', actualizarComentario);
  *         name: comentarioId
  *         required: true
  *         schema:
- *           type: number
- *         description: ID del comentario
+ *           type: integer
+ *         description: ID del comentario a eliminar
  *     responses:
  *       200:
- *         description: Comentario eliminado exitosamente
+ *         description: Comentario eliminado correctamente
  *       404:
  *         description: Comentario no encontrado
  *       500:

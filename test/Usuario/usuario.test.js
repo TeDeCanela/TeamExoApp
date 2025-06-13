@@ -1,4 +1,4 @@
-const { getUsuarios } = require('../../src/controladores/rest/Usuario');
+const { getUsuarios } = require('../../src/controladores/Usuario');
 const Usuario = require('../../src/modelos/Usuario');
 const httpMocks = require('node-mocks-http');
 process.env.NODE_ENV = 'test';

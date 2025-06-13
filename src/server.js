@@ -8,7 +8,7 @@ mongoose.connect(MONGO_URI, {
 })
     .then(() => {
         console.log('Conectado a MongoDB');
-        app.listen(PORT || 3000, () => {
+        app.listen(PORT || 3000, '0.0.0.0',() => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
     })

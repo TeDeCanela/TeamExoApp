@@ -7,25 +7,25 @@ const {
     eliminarUsuario,
     actualizarContrasena,
     obtenerPerfil
-} = require('../../src/controladores/rest/Usuario');
+} = require('../../src/controladores/Usuario');
 const validarJWT = require('../../src/middlwares/validarJWT');
 
 /**
  * @swagger
  * tags:
  *   name: Usuarios
- *   description: Operaciones relacionadas con usuarios
+ *   description: Endpoints para gestión de usuarios y autenticación
  */
 
 /**
  * @swagger
  * /api/usuarios:
  *   get:
- *     summary: Obtener lista de usuarios
+ *     summary: Obtener todos los usuarios
  *     tags: [Usuarios]
  *     responses:
  *       200:
- *         description: Lista de usuarios obtenida exitosamente
+ *         description: Lista de usuarios
  *       500:
  *         description: Error del servidor
  */
@@ -35,7 +35,7 @@ router.get('/', getUsuarios);
  * @swagger
  * /api/usuarios:
  *   post:
- *     summary: Agregar un nuevo usuario
+ *     summary: Crear un nuevo usuario
  *     tags: [Usuarios]
  *     requestBody:
  *       required: true
@@ -43,18 +43,31 @@ router.get('/', getUsuarios);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nombreUsuario
+ *               - nombre
+ *               - apellidos
+ *               - correo
+ *               - contrasena
+ *               - rol
  *             properties:
+ *               nombreUsuario:
+ *                 type: string
  *               nombre:
+ *                 type: string
+ *               apellidos:
  *                 type: string
  *               correo:
  *                 type: string
  *               contrasena:
  *                 type: string
+ *               rol:
+ *                 type: string
  *     responses:
- *       201:
+ *       200:
  *         description: Usuario creado exitosamente
  *       400:
- *         description: Error en los datos enviados
+ *         description: El correo ya está registrado
  *       500:
  *         description: Error del servidor
  */
@@ -71,8 +84,7 @@ router.post('/', agregarUsuario);
  *         name: usuarioId
  *         required: true
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -80,13 +92,19 @@ router.post('/', agregarUsuario);
  *           schema:
  *             type: object
  *             properties:
+ *               nombreUsuario:
+ *                 type: string
  *               nombre:
+ *                 type: string
+ *               apellidos:
  *                 type: string
  *               correo:
  *                 type: string
+ *               rol:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Usuario actualizado
  *       404:
  *         description: Usuario no encontrado
  *       500:
@@ -105,11 +123,11 @@ router.put('/:usuarioId', actualizarUsuario);
  *         name: usuarioId
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
  *         description: ID del usuario a eliminar
  *     responses:
  *       200:
- *         description: Usuario eliminado exitosamente
+ *         description: Usuario eliminado
  *       404:
  *         description: Usuario no encontrado
  *       500:
@@ -121,29 +139,30 @@ router.delete('/:usuarioId', eliminarUsuario);
  * @swagger
  * /api/usuarios/{usuarioId}/contrasena:
  *   put:
- *     summary: Actualizar contraseña del usuario
+ *     summary: Actualizar contraseña de un usuario
  *     tags: [Usuarios]
  *     parameters:
  *       - in: path
  *         name: usuarioId
  *         required: true
  *         schema:
- *           type: string
- *         description: ID del usuario
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nuevaContrasena
  *             properties:
- *               contrasena:
+ *               nuevaContrasena:
  *                 type: string
  *     responses:
  *       200:
- *         description: Contraseña actualizada
+ *         description: Contraseña actualizada correctamente
  *       400:
- *         description: Datos inválidos
+ *         description: La contraseña no puede estar vacía
  *       404:
  *         description: Usuario no encontrado
  *       500:
@@ -155,19 +174,18 @@ router.put('/:usuarioId/contrasena', actualizarContrasena);
  * @swagger
  * /api/usuarios/perfil:
  *   get:
- *     summary: Obtener perfil del usuario autenticado
+ *     summary: Obtener el perfil del usuario autenticado
  *     tags: [Usuarios]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Perfil del usuario
- *       401:
- *         description: Token no válido o no proporcionado
+ *         description: Perfil obtenido correctamente
+ *       404:
+ *         description: Usuario no encontrado
  *       500:
  *         description: Error del servidor
  */
 router.get('/perfil', validarJWT, obtenerPerfil);
-
 
 module.exports = router;

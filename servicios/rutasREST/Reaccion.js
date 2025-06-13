@@ -5,13 +5,13 @@ const {
     obtenerReaccionesPorPublicacion,
     actualizarReaccion,
     eliminarReaccion,
-} = require('../../src/controladores/rest/Reaccion');
+} = require('../../src/controladores/Reaccion');
 
 /**
  * @swagger
  * tags:
  *   name: Reacciones
- *   description: Operaciones relacionadas con las reacciones de publicaciones
+ *   description: Endpoints para gestionar reacciones de usuarios a publicaciones
  */
 
 /**
@@ -26,19 +26,26 @@ const {
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - reaccionId
+ *               - tipo
+ *               - publicacionId
+ *               - usuarioId
  *             properties:
- *               publicacionId:
- *                 type: number
- *               usuarioId:
- *                 type: number
+ *               reaccionId:
+ *                 type: integer
  *               tipo:
  *                 type: string
- *                 enum: [like, love, haha, triste, enojado]
+ *                 example: like
+ *               publicacionId:
+ *                 type: integer
+ *               usuarioId:
+ *                 type: integer
+ *               nombreUsuario:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Reacción creada exitosamente
- *       400:
- *         description: Datos inválidos
  *       500:
  *         description: Error del servidor
  */
@@ -48,20 +55,18 @@ router.post('/', crearReaccion);
  * @swagger
  * /api/reacciones/publicacion/{id}:
  *   get:
- *     summary: Obtener todas las reacciones de una publicación
+ *     summary: Obtener reacciones de una publicación por ID
  *     tags: [Reacciones]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: integer
  *         description: ID de la publicación
  *     responses:
  *       200:
- *         description: Lista de reacciones obtenida exitosamente
- *       404:
- *         description: No se encontraron reacciones para la publicación
+ *         description: Lista de reacciones de la publicación
  *       500:
  *         description: Error del servidor
  */
@@ -71,15 +76,15 @@ router.get('/publicacion/:id', obtenerReaccionesPorPublicacion);
  * @swagger
  * /api/reacciones/{reaccionId}:
  *   put:
- *     summary: Actualizar una reacción
+ *     summary: Actualizar el tipo de una reacción
  *     tags: [Reacciones]
  *     parameters:
  *       - in: path
  *         name: reaccionId
  *         required: true
  *         schema:
- *           type: number
- *         description: ID de la reacción a actualizar
+ *           type: integer
+ *         description: ID de la reacción
  *     requestBody:
  *       required: true
  *       content:
@@ -89,12 +94,10 @@ router.get('/publicacion/:id', obtenerReaccionesPorPublicacion);
  *             properties:
  *               tipo:
  *                 type: string
- *                 enum: [like, love, haha, triste, enojado]
+ *                 example: love
  *     responses:
  *       200:
- *         description: Reacción actualizada exitosamente
- *       400:
- *         description: Datos inválidos
+ *         description: Reacción actualizada
  *       404:
  *         description: Reacción no encontrada
  *       500:
@@ -106,18 +109,18 @@ router.put('/:reaccionId', actualizarReaccion);
  * @swagger
  * /api/reacciones/{reaccionId}:
  *   delete:
- *     summary: Eliminar una reacción
+ *     summary: Eliminar una reacción por su ID
  *     tags: [Reacciones]
  *     parameters:
  *       - in: path
  *         name: reaccionId
  *         required: true
  *         schema:
- *           type: number
+ *           type: integer
  *         description: ID de la reacción a eliminar
  *     responses:
  *       200:
- *         description: Reacción eliminada exitosamente
+ *         description: Reacción eliminada correctamente
  *       404:
  *         description: Reacción no encontrada
  *       500:

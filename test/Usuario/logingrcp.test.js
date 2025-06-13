@@ -1,7 +1,7 @@
     process.env.NODE_ENV = 'test';
     require('dotenv').config({ path: '.env.test' });
 
-    const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/Usuario');
+    const { startGrpcServer, stopGrpcServer } = require('../../servicios/serviciosgRPC/grcpUsuario/Usuario');
     const grpc = require('@grpc/grpc-js');
     const protoLoader = require('@grpc/proto-loader');
     const path = require('path');
@@ -9,7 +9,7 @@
     const Usuario = require('../../src/modelos/Usuario');
     const bcrypt = require('bcrypt');
 
-    const PROTO_PATH = path.join(__dirname, '../../servicios/protos/usuario.proto');
+    const PROTO_PATH = path.join(__dirname, '../../servicios/serviciosgRPC/grcpUsuario/usuario.proto');
     const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
         keepCase: true,
         longs: String,
@@ -39,7 +39,7 @@
             rol: 'Fan'
         });
 
-        client = new proto.UsuarioService('localhost:50051', grpc.credentials.createInsecure());
+        client = new proto.UsuarioService('localhost:3000', grpc.credentials.createInsecure());
 
         // Espera a que esté listo el cliente
         await new Promise((resolve, reject) => {

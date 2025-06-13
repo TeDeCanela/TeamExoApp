@@ -29,7 +29,8 @@ const PublicacionSchema = Schema({
     fechaCreacion: {
         type: Date,
         required: true
-    }
+    },
+
 });
 
 PublicacionSchema.plugin(AutoIncrement, { inc_field: 'identificador' });

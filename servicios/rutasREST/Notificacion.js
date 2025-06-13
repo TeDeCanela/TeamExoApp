@@ -5,13 +5,13 @@ const {
     marcarComoLeida,
     marcarMultiplesComoLeidas,
     eliminarNotificacion
-} = require('../../src/controladores/rest/Notificaciones');
+} = require('../../src/controladores/Notificaciones');
 
 /**
  * @swagger
  * tags:
  *   name: Notificaciones
- *   description: Operaciones relacionadas con notificaciones
+ *   description: Endpoints para consultar y actualizar notificaciones de usuario
  */
 
 /**
@@ -25,13 +25,28 @@ const {
  *         name: usuarioId
  *         required: true
  *         schema:
- *           type: number
+ *           type: integer
  *         description: ID del usuario
+ *       - in: query
+ *         name: leida
+ *         schema:
+ *           type: boolean
+ *         description: Filtrar por estado de lectura (true o false)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Número máximo de resultados por página
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Página de resultados a obtener
  *     responses:
  *       200:
- *         description: Lista de notificaciones obtenida exitosamente
+ *         description: Lista de notificaciones del usuario
  *       500:
- *         description: Error del servidor
+ *         description: Error al obtener notificaciones
  */
 router.get('/usuario/:usuarioId', obtenerNotificacionesUsuario);
 
@@ -46,7 +61,7 @@ router.get('/usuario/:usuarioId', obtenerNotificacionesUsuario);
  *         name: id
  *         required: true
  *         schema:
- *           type: number
+ *           type: integer
  *         description: ID de la notificación
  *     responses:
  *       200:
@@ -74,13 +89,10 @@ router.patch('/:id/marcar-leida', marcarComoLeida);
  *               ids:
  *                 type: array
  *                 items:
- *                   type: number
- *                 description: Lista de IDs de notificaciones a marcar como leídas
+ *                   type: string
  *     responses:
  *       200:
- *         description: Notificaciones marcadas como leídas
- *       400:
- *         description: Datos inválidos
+ *         description: Notificaciones actualizadas
  *       500:
  *         description: Error del servidor
  */
@@ -90,18 +102,18 @@ router.patch('/marcar-leidas', marcarMultiplesComoLeidas);
  * @swagger
  * /api/notificaciones/{id}:
  *   delete:
- *     summary: Eliminar una notificación
+ *     summary: Eliminar una notificación por su ID
  *     tags: [Notificaciones]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
- *           type: number
- *         description: ID de la notificación a eliminar
+ *           type: integer
+ *         description: ID de la notificación
  *     responses:
  *       200:
- *         description: Notificación eliminada exitosamente
+ *         description: Notificación eliminada correctamente
  *       404:
  *         description: Notificación no encontrada
  *       500:
