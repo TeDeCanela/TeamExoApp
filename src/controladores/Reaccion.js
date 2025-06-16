@@ -43,7 +43,7 @@ const crearReaccion = async (req, res = response) => {
     const { reaccionId, tipo, publicacionId, usuarioId, nombreUsuario } = req.body;
 
     try {
-        const nueva = new Reaccion({ reaccionId, tipo, publicacionId, usuarioId });
+        const nueva = new Reaccion({ tipo, publicacionId, usuarioId });
         await nueva.save();
 
         emitirReaccion({ tipo, usuarioId, publicacionId, nombreUsuario });
@@ -174,9 +174,118 @@ const eliminarReaccion = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/reacciones/buscar:
+ *   get:
+ *     summary: Obtener los datos de una reacción por usuario y publicación
+ *     description: Devuelve el ID de la reacción, el tipo y la fecha con base en el usuario y la publicación especificados.
+ *     tags: [Reacciones]
+ *     parameters:
+ *       - in: query
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario que realizó la reacción
+ *       - in: query
+ *         name: publicacionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la publicación relacionada
+ *     responses:
+ *       200:
+ *         description: Reacción encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 reaccionId:
+ *                   type: integer
+ *                   description: ID de la reacción
+ *                   example: 123
+ *                 tipo:
+ *                   type: string
+ *                   description: Tipo de reacción
+ *                   enum: [like, dislike, emoji]
+ *                   example: like
+ *                 fecha:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Fecha de creación de la reacción
+ *                   example: "2025-06-16T16:25:00.000Z"
+ *       400:
+ *         description: Parámetros faltantes (usuarioId o publicacionId)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: usuarioId y publicacionId son requeridos
+ *       404:
+ *         description: Reacción no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: No se encontró una reacción con esos datos
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error al buscar la reacción
+ */
+
+const obtenerReaccionId = async (req, res = response) => {
+    const { usuarioId, publicacionId } = req.query;
+
+    if (!usuarioId || !publicacionId) {
+        return res.status(400).json({
+            msg: 'usuarioId y publicacionId son requeridos'
+        });
+    }
+
+    try {
+        const reaccion = await Reaccion.findOne({ usuarioId: Number(usuarioId), publicacionId: Number(publicacionId) });
+
+        if (!reaccion) {
+            return res.status(404).json({
+                msg: 'No se encontró una reacción con esos datos'
+            });
+        }
+
+        return res.json({
+            reaccionId: reaccion.reaccionId,
+            tipo: reaccion.tipo,
+            fecha: reaccion.fecha
+        });
+
+    } catch (error) {
+        console.error(`Error al obtener reaccionId: ${error.message}`);
+        return res.status(500).json({
+            msg: 'Error al buscar la reacción'
+        });
+    }
+};
+
+
+
 module.exports = {
     crearReaccion,
     obtenerReaccionesPorPublicacion,
     actualizarReaccion,
-    eliminarReaccion
+    eliminarReaccion,
+    obtenerReaccionId
 };

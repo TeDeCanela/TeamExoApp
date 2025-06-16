@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const ComentarioSchema = new Schema({
     comentarioId: {
@@ -20,5 +21,7 @@ const ComentarioSchema = new Schema({
         type: Date,
         default: Date.now }
 });
+
+ComentarioSchema.plugin(AutoIncrement, { inc_field: 'comentarioId' });
 
 module.exports = model('Comentario', ComentarioSchema);
