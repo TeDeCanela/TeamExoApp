@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.3% </span>
+                <span class="strong">88.46% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/26</span>
+                <span class='fraction'>23/26</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">22.5% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>9/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>23/46</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -276,34 +276,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -395,39 +395,39 @@ async function obtenerEstadisticas(call, callback) {
             : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
 &nbsp;
         const [usuarioPublicaciones, usuarioReacciones, usuarioComentarios] = await Promise.all([
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopPublicacionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopPublicacionesArr[0]._id) : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>.lean(),
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopReaccionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopReaccionesArr[0]._id) : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>.lean(),
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopComentariosArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopComentariosArr[0]._id) : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>.lean()
+            Usuario.findOne({ usuarioId: usuarioTopPublicacionesArr[0]?._id }).lean(),
+            Usuario.findOne({ usuarioId: usuarioTopReaccionesArr[0]?._id }).lean(),
+            Usuario.findOne({ usuarioId: usuarioTopComentariosArr[0]?._id }).lean()
         ]);
 &nbsp;
-        const recursosPorTipoFormateados = recursosPorTipoArr.map(r =&gt; ({
+        const recursosPorTipoFormateados = <span class="cstat-no" title="statement not covered" >recursosPorTipoArr.map(<span class="fstat-no" title="function not covered" >r </span>=&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
             tipo: r._id,
             total: r.total
         }));
 &nbsp;
-        callback(null, {
+<span class="cstat-no" title="statement not covered" >        callback(null, {</span>
             topLikes: {
-                publicacionId: topLikesArr[0]?._id?.toString() || <span class="branch-1 cbranch-no" title="branch not covered" >"0",</span>
-                titulo: publicacionTopLikes?.titulo || <span class="branch-1 cbranch-no" title="branch not covered" >"Desconocido",</span>
-                total: topLikesArr[0]?.total || <span class="branch-1 cbranch-no" title="branch not covered" >0</span>
+                publicacionId: topLikesArr[0]?._id?.toString() || "0",
+                titulo: publicacionTopLikes?.titulo || "Desconocido",
+                total: topLikesArr[0]?.total || 0
             },
             topComentarios: {
-                publicacionId: topComentariosArr[0]?._id?.toString() || <span class="branch-1 cbranch-no" title="branch not covered" >"0",</span>
-                titulo: publicacionTopComentarios?.titulo || <span class="branch-1 cbranch-no" title="branch not covered" >"Desconocido",</span>
-                total: topComentariosArr[0]?.total || <span class="branch-1 cbranch-no" title="branch not covered" >0</span>
+                publicacionId: topComentariosArr[0]?._id?.toString() || "0",
+                titulo: publicacionTopComentarios?.titulo || "Desconocido",
+                total: topComentariosArr[0]?.total || 0
             },
             totalPublicaciones,
-            diaConMasPublicaciones: diaTopPublicacionesArr[0]?._id || <span class="branch-1 cbranch-no" title="branch not covered" >"N/A",</span>
-            publicacionesEnEseDia: diaTopPublicacionesArr[0]?.total || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
-            usuarioTopPublicaciones: usuarioPublicaciones?.nombre || <span class="branch-1 cbranch-no" title="branch not covered" >"Desconocido",</span>
+            diaConMasPublicaciones: diaTopPublicacionesArr[0]?._id || "N/A",
+            publicacionesEnEseDia: diaTopPublicacionesArr[0]?.total || 0,
+            usuarioTopPublicaciones: usuarioPublicaciones?.nombre || "Desconocido",
             recursosPorTipo: recursosPorTipoFormateados,
-            usuarioTopReacciones: usuarioReacciones?.nombre || <span class="branch-1 cbranch-no" title="branch not covered" >"Desconocido",</span>
-            usuarioTopComentarios: usuarioComentarios?.nombre || <span class="branch-1 cbranch-no" title="branch not covered" >"Desconocido",</span>
+            usuarioTopReacciones: usuarioReacciones?.nombre || "Desconocido",
+            usuarioTopComentarios: usuarioComentarios?.nombre || "Desconocido",
             notificacionesPendientes
         });
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error("Error en obtenerEstadisticas:", error);</span>
-<span class="cstat-no" title="statement not covered" >        callback({</span>
+        console.error("Error en obtenerEstadisticas:", error);
+        callback({
             code: grpc.status.INTERNAL,
             message: 'Error al obtener estadísticas extendidas'
         });
@@ -442,7 +442,7 @@ module.exports = { obtenerEstadisticas };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-16T04:33:27.841Z
+                at 2025-06-16T18:28:37.649Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -82,9 +82,9 @@ async function obtenerEstadisticas(call, callback) {
             : null;
 
         const [usuarioPublicaciones, usuarioReacciones, usuarioComentarios] = await Promise.all([
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopPublicacionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopPublicacionesArr[0]._id) : null).lean(),
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopReaccionesArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopReaccionesArr[0]._id) : null).lean(),
-            Usuario.findById(mongoose.Types.ObjectId.isValid(usuarioTopComentariosArr[0]?._id) ? new mongoose.Types.ObjectId(usuarioTopComentariosArr[0]._id) : null).lean()
+            Usuario.findOne({ usuarioId: usuarioTopPublicacionesArr[0]?._id }).lean(),
+            Usuario.findOne({ usuarioId: usuarioTopReaccionesArr[0]?._id }).lean(),
+            Usuario.findOne({ usuarioId: usuarioTopComentariosArr[0]?._id }).lean()
         ]);
 
         const recursosPorTipoFormateados = recursosPorTipoArr.map(r => ({
@@ -106,10 +106,19 @@ async function obtenerEstadisticas(call, callback) {
             totalPublicaciones,
             diaConMasPublicaciones: diaTopPublicacionesArr[0]?._id || "N/A",
             publicacionesEnEseDia: diaTopPublicacionesArr[0]?.total || 0,
-            usuarioTopPublicaciones: usuarioPublicaciones?.nombre || "Desconocido",
+            usuarioTopPublicaciones: {
+                usuarioId: usuarioPublicaciones?.usuarioId || 0,
+                nombre: usuarioPublicaciones?.nombre || "Desconocido"
+            },
             recursosPorTipo: recursosPorTipoFormateados,
-            usuarioTopReacciones: usuarioReacciones?.nombre || "Desconocido",
-            usuarioTopComentarios: usuarioComentarios?.nombre || "Desconocido",
+            usuarioTopReacciones: {
+                usuarioId: usuarioReacciones?.usuarioId || 0,
+                nombre: usuarioReacciones?.nombre || "Desconocido"
+            },
+            usuarioTopComentarios: {
+                usuarioId: usuarioComentarios?.usuarioId || 0,
+                nombre: usuarioComentarios?.nombre || "Desconocido"
+            },
             notificacionesPendientes
         });
     } catch (error) {

@@ -10,11 +10,6 @@ const Notificacion = require('../../src/modelos/Notificacion');
 const Usuario = require('../../src/modelos/Usuario');
 const modelosRecurso = require('../../src/modelos/Recurso');
 const Recurso = modelosRecurso.Recurso;
-Recurso.aggregate.mockResolvedValue([
-    { _id: 'Foto', total: 30 },
-    { _id: 'Video', total: 15 },
-    { _id: 'Audio', total: 5 }
-]);
 
 jest.mock('../../src/modelos/Reaccion');
 jest.mock('../../src/modelos/Comentario');
@@ -30,7 +25,6 @@ jest.mock('../../src/modelos/Recurso', () => {
         Audio: {}
     };
 });
-
 jest.mock('../../src/modelos/Notificacion');
 jest.mock('../../src/modelos/Usuario');
 
@@ -42,30 +36,29 @@ Publicacion.findById = jest.fn();
 Recurso.aggregate = jest.fn();
 Notificacion.countDocuments = jest.fn();
 Estadistica.findOneAndUpdate = jest.fn();
-Usuario.findById = jest.fn();
+Usuario.findOne = jest.fn();
 
 describe('obtenerEstadisticas', () => {
     it('debería devolver estadísticas correctamente con títulos de publicaciones', async () => {
-
         const idLike = new mongoose.Types.ObjectId();
         const idComentario = new mongoose.Types.ObjectId();
-        const idUsuario1 = new mongoose.Types.ObjectId();
-        const idUsuario2 = new mongoose.Types.ObjectId();
-        const idUsuario3 = new mongoose.Types.ObjectId();
+        const idUsuario1 = 1;
+        const idUsuario2 = 2;
+        const idUsuario3 = 3;
 
         Reaccion.aggregate
-            .mockResolvedValueOnce([{ _id: idLike, total: 10 }])
-            .mockResolvedValueOnce([{ _id: idUsuario1, total: 15 }]);
+            .mockResolvedValueOnce([{ _id: idLike, total: 10 }])       // topLikes
+            .mockResolvedValueOnce([{ _id: idUsuario1, total: 15 }]);  // usuarioTopReacciones
 
         Comentario.aggregate
-            .mockResolvedValueOnce([{ _id: idComentario, total: 5 }])
-            .mockResolvedValueOnce([{ _id: idUsuario2, total: 9 }]);
+            .mockResolvedValueOnce([{ _id: idComentario, total: 5 }])  // topComentarios
+            .mockResolvedValueOnce([{ _id: idUsuario2, total: 9 }]);   // usuarioTopComentarios
 
         Publicacion.countDocuments.mockResolvedValue(100);
 
         Publicacion.aggregate
-            .mockResolvedValueOnce([{ _id: '2024-06-09', total: 20 }])
-            .mockResolvedValueOnce([{ _id: idUsuario3, total: 8 }]);
+            .mockResolvedValueOnce([{ _id: '2024-06-09', total: 20 }]) // diaConMasPublicaciones
+            .mockResolvedValueOnce([{ _id: idUsuario3, total: 8 }]);   // usuarioTopPublicaciones
 
         Publicacion.findById.mockImplementation((id) => {
             const publicaciones = {
@@ -77,21 +70,21 @@ describe('obtenerEstadisticas', () => {
             };
         });
 
-        Usuario.findById.mockImplementation((id) => {
+        Usuario.findOne.mockImplementation(({ usuarioId }) => {
             const usuarios = {
-                [idUsuario1.toString()]: { nombre: 'Carlos' },
-                [idUsuario2.toString()]: { nombre: 'Luisa' },
-                [idUsuario3.toString()]: { nombre: 'Ana' }
+                [idUsuario1]: { nombre: 'Carlos', usuarioId: 0 },
+                [idUsuario2]: { nombre: 'Luisa', usuarioId: 0 },
+                [idUsuario3]: { nombre: 'Ana', usuarioId: 0 }
             };
             return {
-                lean: () => Promise.resolve(usuarios[id?.toString()] || { nombre: 'Desconocido' })
+                lean: () => Promise.resolve(usuarios[usuarioId] || { nombre: 'Desconocido', usuarioId: -1 })
             };
         });
 
         Recurso.aggregate.mockResolvedValue([
             { _id: 'Foto', total: 30 },
             { _id: 'Video', total: 15 },
-            { _id: 'Audio', total: 5 },
+            { _id: 'Audio', total: 5 }
         ]);
 
         Notificacion.countDocuments.mockResolvedValue(12);
@@ -115,15 +108,15 @@ describe('obtenerEstadisticas', () => {
             totalPublicaciones: 100,
             diaConMasPublicaciones: '2024-06-09',
             publicacionesEnEseDia: 20,
-            usuarioTopPublicaciones: 'Ana',
-            usuarioTopReacciones: 'Carlos',
-            usuarioTopComentarios: 'Luisa',
+            usuarioTopPublicaciones: { nombre: 'Ana', usuarioId: 0 },
+            usuarioTopReacciones: { nombre: 'Carlos', usuarioId: 0 },
+            usuarioTopComentarios: { nombre: 'Luisa', usuarioId: 0 },
             recursosPorTipo: [
                 { tipo: 'Foto', total: 30 },
                 { tipo: 'Video', total: 15 },
-                { tipo: 'Audio', total: 5 },
+                { tipo: 'Audio', total: 5 }
             ],
-            notificacionesPendientes: 12,
+            notificacionesPendientes: 12
         });
     });
 });

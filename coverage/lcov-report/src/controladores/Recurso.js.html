@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.7% </span>
+                <span class="strong">77.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/67</span>
+                <span class='fraction'>52/67</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.71% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/28</span>
+                <span class='fraction'>16/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.37% </span>
+                <span class="strong">77.04% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>35/61</span>
+                <span class='fraction'>47/61</span>
             </div>
         
             
@@ -346,7 +346,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -402,9 +402,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -436,7 +436,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -485,31 +485,31 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -599,8 +599,8 @@ const logger = require('../helpers/logger');
 const obtenerRecursoPorId = async (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
     try {
         const recurso = await Recurso.findOne({ identificador: parseInt(req.params.id) });
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!recurso) return res.status(404).json({ msg: 'Recurso no encontrado' });
-<span class="cstat-no" title="statement not covered" >        res.json(recurso);</span>
+        if (!recurso) return res.status(404).json({ msg: 'Recurso no encontrado' });
+        res.json(recurso);
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        logger.error(`Error al obtener recurso: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ msg: 'Error del servidor' });</span>
@@ -655,10 +655,10 @@ const obtenerRecursosPorUsuario = async (req, res = <span class="branch-0 cbranc
  *       500:
  *         description: Error del servidor
  */
-const obtenerRecursosPorTipo = <span class="fstat-no" title="function not covered" >as</span>ync (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const recursos = <span class="cstat-no" title="statement not covered" >await Recurso.find({ tipo: req.params.tipo });</span>
-<span class="cstat-no" title="statement not covered" >        res.json(recursos);</span>
+const obtenerRecursosPorTipo = async (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
+    try {
+        const recursos = await Recurso.find({ tipo: req.params.tipo });
+        res.json(recursos);
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        logger.error(`Error al obtener recursos por tipo: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ msg: 'Error del servidor' });</span>
@@ -689,8 +689,8 @@ const obtenerRecursosPorTipo = <span class="fstat-no" title="function not covere
 const eliminarRecurso = async (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
     try {
         const eliminado = await Recurso.findOneAndDelete({ identificador: parseInt(req.params.id) });
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!eliminado) return res.status(404).json({ msg: 'Recurso no encontrado' });
-<span class="cstat-no" title="statement not covered" >        res.json({ msg: 'Recurso eliminado', recurso: eliminado });</span>
+        if (!eliminado) return res.status(404).json({ msg: 'Recurso no encontrado' });
+        res.json({ msg: 'Recurso eliminado', recurso: eliminado });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        logger.error(`Error al eliminar recurso: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ msg: 'Error del servidor' });</span>
@@ -738,32 +738,32 @@ const actualizarRecurso = async (req, res = <span class="branch-0 cbranch-no" ti
         const { formato, tamano, resolucion, duracion } = req.body;
         const recursoExistente = await Recurso.findOne({ identificador: parseInt(req.params.id) });
 &nbsp;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!recursoExistente) {
+        if (!recursoExistente) {
             return res.status(404).json({ msg: 'Recurso no encontrado' });
         }
 &nbsp;
-        const tipo = <span class="cstat-no" title="statement not covered" >recursoExistente.tipo;</span>
-        const datosActualizados = <span class="cstat-no" title="statement not covered" >{ formato, tamano };</span>
+        const tipo = recursoExistente.tipo;
+        const datosActualizados = { formato, tamano };
 &nbsp;
         let Modelo;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (tipo === 'Foto' || tipo === 'Video') {</span>
-<span class="cstat-no" title="statement not covered" >            datosActualizados.resolucion = resolucion;</span>
-<span class="cstat-no" title="statement not covered" >            Modelo = tipo === 'Foto' ? Foto : Video;</span>
-        } else <span class="cstat-no" title="statement not covered" >if (tipo === 'Audio') {</span>
+        if (tipo === 'Foto' || <span class="branch-1 cbranch-no" title="branch not covered" >tipo === 'Video')</span> {
+            datosActualizados.resolucion = resolucion;
+            Modelo = tipo === 'Foto' ? Foto : <span class="branch-1 cbranch-no" title="branch not covered" >Video;</span>
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>if (tipo === 'Audio') {</span>
 <span class="cstat-no" title="statement not covered" >            datosActualizados.duracion = duracion;</span>
 <span class="cstat-no" title="statement not covered" >            Modelo = Audio;</span>
         } else {
 <span class="cstat-no" title="statement not covered" >            Modelo = Recurso;</span>
         }
 &nbsp;
-        const actualizado = <span class="cstat-no" title="statement not covered" >await Modelo.findOneAndUpdate(</span>
+        const actualizado = await Modelo.findOneAndUpdate(
             { identificador: parseInt(req.params.id) },
             datosActualizados,
             { new: true }
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.json({ msg: 'Recurso actualizado', recurso: actualizado });</span>
+        res.json({ msg: 'Recurso actualizado', recurso: actualizado });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        logger.error(`Error al actualizar recurso: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ msg: 'Error del servidor' });</span>
@@ -832,7 +832,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-16T04:33:27.841Z
+                at 2025-06-16T18:28:37.649Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.52% </span>
+                <span class="strong">84.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/38</span>
+                <span class='fraction'>32/38</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.45% </span>
+                <span class="strong">83.78% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/37</span>
+                <span class='fraction'>31/37</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -293,9 +293,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -373,7 +373,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -402,16 +402,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -475,9 +475,9 @@ const crearReaccion = async (req, res = <span class="branch-0 cbranch-no" title=
         const nueva = new Reaccion({ reaccionId, tipo, publicacionId, usuarioId });
         await nueva.save();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        emitirReaccion({ tipo, usuarioId, publicacionId, nombreUsuario });</span>
+        emitirReaccion({ tipo, usuarioId, publicacionId, nombreUsuario });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.status(201).json({ msg: 'Reacción creada', reaccion: nueva });</span>
+        res.status(201).json({ msg: 'Reacción creada', reaccion: nueva });
     } catch (error) {
         logger.error(`Error al crear reacción: ${error.message}`);
         res.status(500).json({ msg: 'Error del servidor' });
@@ -554,8 +554,8 @@ const actualizarReaccion = async (req, res = <span class="branch-0 cbranch-no" t
             { new: true }
         );
 &nbsp;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!actualizada) return res.status(404).json({ msg: 'Reacción no encontrada' });
-<span class="cstat-no" title="statement not covered" >        res.json({ msg: 'Reacción actualizada', reaccion: actualizada });</span>
+        if (!actualizada) return res.status(404).json({ msg: 'Reacción no encontrada' });
+        res.json({ msg: 'Reacción actualizada', reaccion: actualizada });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        logger.error(`Error al actualizar reacción: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({ msg: 'Error del servidor' });</span>
@@ -583,17 +583,17 @@ const actualizarReaccion = async (req, res = <span class="branch-0 cbranch-no" t
  *       500:
  *         description: Error del servidor
  */
-const eliminarReaccion = <span class="fstat-no" title="function not covered" >as</span>ync (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const { reaccionId } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+const eliminarReaccion = async (req, res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt; {
+    try {
+        const { reaccionId } = req.params;
 &nbsp;
-        const eliminada = <span class="cstat-no" title="statement not covered" >await Reaccion.findOneAndDelete({ reaccionId: parseInt(reaccionId) });</span>
+        const eliminada = await Reaccion.findOneAndDelete({ reaccionId: parseInt(reaccionId) });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (!eliminada) {</span>
-<span class="cstat-no" title="statement not covered" >            return res.status(404).json({ msg: 'Reacción no encontrada' });</span>
+        if (!eliminada) {
+            return res.status(404).json({ msg: 'Reacción no encontrada' });
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.json({</span>
+        res.json({
             msg: 'Reacción eliminada correctamente',
             reaccion: eliminada
         });
@@ -616,7 +616,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-16T04:33:27.841Z
+                at 2025-06-16T18:28:37.649Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
