@@ -156,74 +156,146 @@ const eliminarPublicacionModerador = async (req, res = response) => {
  * @swagger
  * /api/publicaciones/buscar:
  *   get:
- *     summary: Buscar publicaciones por palabra clave, estado o categorías
+ *     summary: Busca publicaciones con múltiples filtros (texto, categorías, tipo de recurso)
  *     tags: [Publicaciones]
  *     parameters:
  *       - in: query
  *         name: query
  *         schema:
  *           type: string
- *         description: Palabra clave para buscar en título, contenido o palabras clave
+ *         description: Texto para buscar en título o contenido
  *       - in: query
  *         name: categorias
  *         schema:
  *           type: string
- *         description: Lista separada por comas de categorías
+ *         description: Categorías separadas por comas
+ *       - in: query
+ *         name: tipoRecurso
+ *         schema:
+ *           type: string
+ *           enum: [Foto, Video, Audio]
+ *         description: Tipo de recurso asociado (Foto/Video/Audio)
  *       - in: query
  *         name: estado
  *         schema:
  *           type: string
  *           enum: [Publicado, Borrador, Eliminado]
  *           default: Publicado
+ *         description: Filtro por estado de publicación
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           default: 10
+ *         description: Límite de resultados por página
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
  *           default: 1
+ *         description: Número de página
  *     responses:
  *       200:
- *         description: Lista de publicaciones filtradas
+ *         description: Resultados de la búsqueda paginados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 total:
+ *                   type: integer
+ *                   description: Total de resultados
+ *                 paginas:
+ *                   type: integer
+ *                   description: Total de páginas
+ *                 paginaActual:
+ *                   type: integer
+ *                   description: Página actual
+ *                 resultados:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/PublicacionConRecurso'
  *       500:
  *         description: Error del servidor
  */
 const buscarPublicaciones = async (req, res = response) => {
-    const { query, categorias, estado = 'Publicado', limit = 10, page = 1, recursoId} = req.query;
+    const {
+        query,
+        categorias,
+        tipoRecurso,
+        estado = 'Publicado',
+        limit = 10,
+        page = 1
+    } = req.query;
 
     try {
-        const filtro = { estado };
+        const pipeline = [
+            {
+                $match: { estado }
+            },
+            {
+                $lookup: {
+                    from: 'recursos',
+                    localField: 'identificador',
+                    foreignField: 'publicacionId',
+                    as: 'recurso'
+                }
+            },
+            {
+                $addFields: {
+                    recurso: { $arrayElemAt: ['$recurso', 0] }
+                }
+            }
+        ];
 
-        if (recursoId) {
-            filtro.recursoId = Number(recursoId);
-        }
-
-        if (categorias) {
-            filtro.categorias = {
-                $in: categorias.split(',')
-            };
+        if (tipoRecurso) {
+            pipeline.push({
+                $match: {
+                    'recurso.tipo': tipoRecurso
+                }
+            });
         }
 
         if (query) {
             const regex = new RegExp(query, 'i');
-            filtro.$or = [
-                { titulo: regex },
-                { contenido: regex },
-                { palabrasClave: { $in: [regex] } }
-            ];
+            pipeline.push({
+                $match: {
+                    $or: [
+                        { titulo: regex },
+                        { contenido: regex }
+                    ]
+                }
+            });
         }
 
-        const options = {
-            limit: parseInt(limit),
-            skip: (parseInt(page) - 1) * parseInt(limit),
-            sort: { fechaCreacion: -1 }
-        };
+        if (categorias) {
+            pipeline.push({
+                $match: {
+                    categorias: {
+                        $in: categorias.split(',')
+                    }
+                }
+            });
+        }
 
-        const publicaciones = await Publicacion.find(filtro, null, options);
-        const total = await Publicacion.countDocuments(filtro);
+        const paginationPipeline = [
+            ...pipeline,
+            { $sort: { fechaCreacion: -1 } },
+            { $skip: (parseInt(page) - 1) * parseInt(limit) },
+            { $limit: parseInt(limit) }
+        ];
+
+        const countPipeline = [
+            ...pipeline,
+            { $count: 'total' }
+        ];
+
+        const [publicaciones, totalResult] = await Promise.all([
+            Publicacion.aggregate(paginationPipeline),
+            Publicacion.aggregate(countPipeline)
+        ]);
+
+        const total = totalResult[0]?.total || 0;
 
         res.json({
             total,
@@ -231,60 +303,155 @@ const buscarPublicaciones = async (req, res = response) => {
             paginaActual: parseInt(page),
             resultados: publicaciones
         });
+
     } catch (error) {
+        console.error('Error en buscarPublicaciones:', error);
         res.status(500).json({
             msg: 'Error al realizar la búsqueda',
-            error: process.env.NODE_ENV === 'test' ? error.message : undefined
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };
 
 /**
  * @swagger
- * /api/publicaciones/con-recursos:
+ * /api/publicaciones/usuario/con-recursos:
  *   get:
- *     summary: Obtener publicaciones con sus recursos asociados
+ *     summary: Obtiene publicaciones de un usuario específico con sus recursos
  *     tags: [Publicaciones]
  *     parameters:
  *       - in: query
  *         name: usuarioId
+ *         required: true
  *         schema:
  *           type: integer
+ *         description: ID del usuario cuyas publicaciones se quieren obtener
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *           enum: [Publicado, Borrador, Eliminado]
+ *           default: Publicado
+ *         description: Filtro por estado de publicación
+ *     responses:
+ *       200:
+ *         description: Lista de publicaciones del usuario con recursos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/PublicacionConRecurso'
+ *       400:
+ *         description: Falta el parámetro usuarioId
+ *       500:
+ *         description: Error del servidor
+ */
+const obtenerPublicacionesUsuarioConRecursos = async (req, res = response) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                msg: 'El parámetro usuarioId es requerido'
+            });
+        }
+
+        const publicaciones = await Publicacion.aggregate([
+            {
+                $match: {
+                    usuarioId: Number(id),
+                    estado: "Publicado"
+                }
+            },
+            {
+                $lookup: {
+                    from: "recursos",
+                    localField: "identificador",
+                    foreignField: "publicacionId",
+                    as: "recurso"
+                }
+            },
+            {
+                $addFields: {
+                    recurso: {
+                        $cond: {
+                            if: { $eq: [{ $size: "$recurso" }, 0] },
+                            then: null,
+                            else: { $arrayElemAt: ["$recurso", 0] }
+                        }
+                    }
+                }
+            }
+        ]);
+
+        return res.status(200).json(publicaciones);
+    } catch (error) {
+        console.error('Error al obtener publicaciones del usuario:', error);
+        return res.status(500).json({
+            msg: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+/**
+ * @swagger
+ * /api/publicaciones/con-recursos:
+ *   get:
+ *     summary: Obtiene todas las publicaciones con sus recursos asociados (si existen)
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *           enum: [Publicado, Borrador, Eliminado]
+ *           default: Publicado
+ *         description: Filtro por estado de publicación
  *     responses:
  *       200:
  *         description: Lista de publicaciones con recursos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/PublicacionConRecurso'
  *       500:
  *         description: Error del servidor
  */
 const obtenerPublicacionesConRecursos = async (req, res = response) => {
     try {
-        const { usuarioId } = req.query;
-        const filtro = usuarioId ? { usuarioId: Number(usuarioId) } : {};
-
-        // Obtener publicaciones como objetos simples
-        const publicaciones = await Publicacion.find(filtro).lean();
-
-        // Obtener recursos asociados
-        const resultados = await Promise.all(
-            publicaciones.map(async (pub) => {
-                let recurso = null;
-                if (pub.recursoId) {
-                    recurso = await Recurso.findOne({
-                        identificador: pub.recursoId
-                    }).lean() || null;
+        const publicaciones = await Publicacion.aggregate([
+            {
+                $match: { estado: "Publicado" }
+            },
+            {
+                $lookup: {
+                    from: "recursos",
+                    localField: "identificador",
+                    foreignField: "publicacionId",
+                    as: "recurso"
                 }
-                return {
-                    ...pub,
-                    recurso
-                };
-            })
-        );
+            },
+            {
+                $addFields: {
+                    recurso: {
+                        $cond: {
+                            if: { $eq: [{ $size: "$recurso" }, 0] },
+                            then: null, // Valor explícito para casos sin recursos
+                            else: { $arrayElemAt: ["$recurso", 0] }
+                        }
+                    }
+                }
+            }
+        ]);
 
-        return res.status(200).json(resultados);
+        return res.status(200).json(publicaciones);
     } catch (error) {
-        console.error('Error en obtenerPublicacionesConRecursos:', error);
+        console.error('Error al obtener publicaciones con recursos:', error);
         return res.status(500).json({
-            msg: 'Error al obtener publicaciones',
+            msg: 'Error interno del servidor',
             error: error.message
         });
     }
@@ -294,5 +461,6 @@ module.exports = {
     crearPublicacion,
     eliminarPublicacionModerador,
     buscarPublicaciones,
-    obtenerPublicacionesConRecursos
+    obtenerPublicacionesConRecursos,
+    obtenerPublicacionesUsuarioConRecursos,
 };

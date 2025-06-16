@@ -79,7 +79,7 @@ services:
     env_file:
       - .env
     volumes:
-      - recurso-uploads:/app/uploads
+      - ./uploads:/app/uploads
 
   nginx:
     image: nginx:1.21.1-alpine

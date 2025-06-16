@@ -114,7 +114,10 @@ const descargarRecurso = async (call, callback) => {
                 tipo === 'Video' ? 'mp4' : 'bin';
 
         const nombreArchivo = `recurso_${identificador}.${extension}`;
-        const rutaArchivo = path.join(__dirname, '../../../uploads', nombreArchivo);
+        const rutaArchivo = path.join('/app/uploads', nombreArchivo);
+        ;
+
+        console.log("Buscando archivo en:", rutaArchivo);
 
         if (!fs.existsSync(rutaArchivo)) {
             return callback(null, {

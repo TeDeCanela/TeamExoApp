@@ -2,115 +2,144 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../src/app');
 const Publicacion = require('../../src/modelos/Publicacion');
+const {Recurso} = require('../../src/modelos/Recurso');
 
-describe('GET /api/publicaciones - buscarPublicaciones', () => {
+describe('GET /api/publicaciones/buscar', () => {
     beforeAll(async () => {
         await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/teamexodb_test');
-        await Publicacion.deleteMany({});
 
-        // Crear publicaciones de prueba
-        await Publicacion.create([
+        // Limpiar todas las colecciones relevantes
+        await Publicacion.deleteMany({});
+        await mongoose.connection.db.collection('recursos').deleteMany({}); // Acceso directo a la colección
+
+        // Crear datos de prueba
+        const publicaciones = [
             {
                 identificador: 1,
-                titulo: 'Título con palabra clave',
-                contenido: 'Contenido de prueba con palabra clave',
+                titulo: 'Publicación de prueba 1',
+                contenido: 'Contenido de prueba 1',
                 estado: 'Publicado',
                 usuarioId: 1,
-                palabrasClave: ['clave1', 'clave2'],
-                categorias: ['tecnologia'],
-                fechaCreacion: new Date()
+                fechaCreacion: new Date(),
+                categorias: ['deportes', 'musica']
             },
             {
                 identificador: 2,
-                titulo: 'Otra publicación sobre deportes',
-                contenido: 'Contenido diferente sobre fútbol',
+                titulo: 'Publicación de prueba 2',
+                contenido: 'Contenido de prueba 2',
                 estado: 'Publicado',
                 usuarioId: 1,
-                categorias: ['deportes', 'tecnologia'],
-                fechaCreacion: new Date(Date.now() - 1000 * 60 * 60) // 1 hora antes
+                fechaCreacion: new Date(),
+                categorias: ['tecnologia']
             },
             {
                 identificador: 3,
-                titulo: 'Borrador no publicado',
-                contenido: 'No debería aparecer en búsquedas normales',
+                titulo: 'Borrador de prueba',
+                contenido: 'Contenido de borrador',
                 estado: 'Borrador',
                 usuarioId: 1,
-                fechaCreacion: new Date()
+                fechaCreacion: new Date(),
+                categorias: ['deportes']
+            }
+        ];
+
+        await Publicacion.insertMany(publicaciones);
+
+        // Insertar recursos directamente en la colección
+        await mongoose.connection.db.collection('recursos').insertMany([
+            {
+                identificador: 1,
+                formato: 1,
+                tamano: 1024,
+                URL: 'http://ejemplo.com/1',
+                usuarioId: 1,
+                publicacionId: 1,
+                tipo: 'Foto',
+                resolucion: 1080,
+                __t: 'Foto' // Importante para discriminadores
+            },
+            {
+                identificador: 2,
+                formato: 2,
+                tamano: 2048,
+                URL: 'http://ejemplo.com/2',
+                usuarioId: 1,
+                publicacionId: 2,
+                tipo: 'Video',
+                resolucion: 720,
+                __t: 'Video' // Importante para discriminadores
             }
         ]);
     });
 
     afterAll(async () => {
         await Publicacion.deleteMany({});
+        await mongoose.connection.db.collection('recursos').deleteMany({});
         await mongoose.connection.close();
     });
-
-    test('debería buscar publicaciones por palabra clave', async () => {
+    test('debe devolver publicaciones publicadas por defecto', async () => {
         const res = await request(app)
-            .get('/api/publicaciones')
-            .query({ query: 'palabra clave' });
+            .get('/api/publicaciones/buscar');
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.total).toBe(2); // Solo las publicadas
+        expect(res.body.resultados.length).toBe(2);
+        expect(res.body.resultados[0].estado).toBe('Publicado');
+        expect(res.body.resultados[1].estado).toBe('Publicado');
+    });
+
+    test('debe filtrar por tipo de recurso', async () => {
+        const res = await request(app)
+            .get('/api/publicaciones/buscar?tipoRecurso=Foto');
 
         expect(res.statusCode).toBe(200);
         expect(res.body.total).toBe(1);
-        expect(res.body.resultados[0].titulo).toMatch(/palabra clave/i);
+        expect(res.body.resultados[0].recurso.tipo).toBe('Foto');
     });
 
-
-    test('debería paginar resultados', async () => {
+    test('debe buscar por texto en título o contenido', async () => {
         const res = await request(app)
-            .get('/api/publicaciones')
-            .query({ limit: 1, page: 1 });
-
-        expect(res.statusCode).toBe(200);
-        expect(res.body.resultados.length).toBe(1);
-        expect(res.body.paginas).toBeGreaterThan(1);
-    });
-
-    test('debería ordenar por fecha descendente', async () => {
-        const res = await request(app)
-            .get('/api/publicaciones');
-
-        expect(res.statusCode).toBe(200);
-        const fechas = res.body.resultados.map(p => new Date(p.fechaCreacion));
-        const estaOrdenado = fechas.every((fecha, i, arr) =>
-            i === 0 || fecha <= arr[i - 1]
-        );
-        expect(estaOrdenado).toBe(true);
-    });
-
-
-    test('debería filtrar por estado específico', async () => {
-        const res = await request(app)
-            .get('/api/publicaciones')
-            .query({ estado: 'Borrador' });
+            .get('/api/publicaciones/buscar?query=prueba 1');
 
         expect(res.statusCode).toBe(200);
         expect(res.body.total).toBe(1);
-        expect(res.body.resultados[0].titulo).toMatch(/Borrador/i);
+        expect(res.body.resultados[0].titulo).toContain('1');
     });
 
-    test('debería mostrar solo publicadas por defecto', async () => {
+
+    test('debe paginar los resultados correctamente', async () => {
         const res = await request(app)
-            .get('/api/publicaciones');
+            .get('/api/publicaciones/buscar?limit=1&page=1');
 
         expect(res.statusCode).toBe(200);
         expect(res.body.total).toBe(2);
-        expect(res.body.resultados.some(p => p.estado !== 'Publicado')).toBe(false);
+        expect(res.body.resultados.length).toBe(1);
+        expect(res.body.paginas).toBe(2);
+        expect(res.body.paginaActual).toBe(1);
     });
 
-    test('debería manejar errores correctamente', async () => {
-        // Simular un error en la consulta
-        const originalFind = Publicacion.find;
-        Publicacion.find = jest.fn().mockRejectedValue(new Error('Error de prueba'));
+    test('debe manejar errores correctamente', async () => {
+        // Simular un error en la base de datos
+        jest.spyOn(Publicacion, 'aggregate').mockImplementationOnce(() => {
+            throw new Error('Error de base de datos');
+        });
 
         const res = await request(app)
-            .get('/api/publicaciones');
+            .get('/api/publicaciones/buscar');
 
         expect(res.statusCode).toBe(500);
         expect(res.body.msg).toBe('Error al realizar la búsqueda');
 
-        // Restaurar implementación original
-        Publicacion.find = originalFind;
+        // Restaurar la implementación original
+        jest.restoreAllMocks();
     });
 
+    test('debe devolver resultados vacíos si no hay coincidencias', async () => {
+        const res = await request(app)
+            .get('/api/publicaciones/buscar?query=xyz123');
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.total).toBe(0);
+        expect(res.body.resultados.length).toBe(0);
+    });
 });

@@ -4,7 +4,6 @@ const { Schema, model } = mongoose;
 const ComentarioSchema = new Schema({
     comentarioId: {
         type: Number,
-        required: true,
         unique: true
     },
     publicacionId: {

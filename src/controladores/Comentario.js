@@ -6,38 +6,39 @@ const logger = require('../helpers/logger');
  * @swagger
  * /api/comentarios:
  *   post:
- *     summary: Crear un nuevo comentario
+ *     summary: Crea un nuevo comentario
+ *     description: Endpoint para agregar comentarios a publicaciones
  *     tags: [Comentarios]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - comentarioId
- *               - publicacionId
- *               - usuarioId
- *               - texto
- *             properties:
- *               comentarioId:
- *                 type: integer
- *               publicacionId:
- *                 type: integer
- *               usuarioId:
- *                 type: integer
- *               texto:
- *                 type: string
+ *             $ref: '#/components/schemas/ComentarioInput'
  *     responses:
  *       201:
  *         description: Comentario creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ComentarioResponse'
  *       500:
  *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 const crearComentario = async (req, res = response) => {
-    const { comentarioId, publicacionId, usuarioId, texto } = req.body;
+    const { publicacionId, usuarioId, texto } = req.body;
     try {
-        const nuevo = new Comentario({ comentarioId, publicacionId, usuarioId, texto });
+        const nuevo = new Comentario({
+            publicacionId,
+            usuarioId,
+            texto
+            // fecha no se asigna aquí porque el esquema tiene default Date.now
+        });
+
         await nuevo.save();
         res.status(201).json({ msg: 'Comentario creado', comentario: nuevo });
     } catch (error) {
@@ -45,6 +46,7 @@ const crearComentario = async (req, res = response) => {
         res.status(500).json({ msg: 'Error del servidor' });
     }
 };
+
 
 /**
  * @swagger

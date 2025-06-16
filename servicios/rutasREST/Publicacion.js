@@ -4,7 +4,8 @@ const{
     crearPublicacion,
     eliminarPublicacionModerador,
     buscarPublicaciones,
-    obtenerPublicacionesConRecursos
+    obtenerPublicacionesConRecursos,
+    obtenerPublicacionesUsuarioConRecursos
 } = require('../../src/controladores/Publicacion');
 
 /**
@@ -123,7 +124,7 @@ router.delete('/:identificador', eliminarPublicacionModerador);
  *       500:
  *         description: Error del servidor
  */
-router.get('/', buscarPublicaciones);
+router.get('/buscar', buscarPublicaciones);
 
 /**
  * @swagger
@@ -158,5 +159,75 @@ router.get('/', buscarPublicaciones);
  *         description: Error del servidor
  */
 router.get('/con-recursos', obtenerPublicacionesConRecursos);
+
+/**
+ * @swagger
+ * /api/publicaciones/usuario/{usuarioId}:
+ *   get:
+ *     summary: Obtiene todas las publicaciones de un usuario específico
+ *     description: Retorna un listado de publicaciones filtradas por ID de usuario y opcionalmente por estado
+ *     tags: [Publicaciones]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: ID numérico del usuario cuyas publicaciones se quieren obtener
+ *       - in: query
+ *         name: estado
+ *         schema:
+ *           type: string
+ *           enum: [Publicado, Borrador, Eliminado]
+ *           default: Publicado
+ *           example: Publicado
+ *         description: Estado de las publicaciones a filtrar
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *           example: 10
+ *         description: Límite de resultados por página
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *           example: 1
+ *         description: Número de página para paginación
+ *     responses:
+ *       200:
+ *         description: Listado de publicaciones del usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publicacion'
+ *       400:
+ *         description: Parámetros inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: No se encontraron publicaciones para el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/usuario/:id', obtenerPublicacionesUsuarioConRecursos);
 
 module.exports = router;
