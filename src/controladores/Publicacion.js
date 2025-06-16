@@ -133,8 +133,6 @@ const eliminarPublicacionModerador = async (req, res = response) => {
             { identificador: Number(identificador) },
             {
                 estado: 'Eliminado',
-                eliminadoPor: req.body.usuarioId || null,
-                fechaEliminacion: new Date()
             },
             { new: true }
         );

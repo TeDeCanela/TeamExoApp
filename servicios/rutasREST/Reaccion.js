@@ -5,6 +5,7 @@ const {
     obtenerReaccionesPorPublicacion,
     actualizarReaccion,
     eliminarReaccion,
+    obtenerReaccionId,
 } = require('../../src/controladores/Reaccion');
 
 /**
@@ -127,5 +128,36 @@ router.put('/:reaccionId', actualizarReaccion);
  *         description: Error del servidor
  */
 router.delete('/:reaccionId', eliminarReaccion);
+
+/**
+ * @swagger
+ * /api/reacciones/buscar:
+ *   get:
+ *     summary: Obtiene el ID de reacción por usuario y publicación
+ *     tags: [Reacciones]
+ *     parameters:
+ *       - in: query
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del usuario
+ *       - in: query
+ *         name: publicacionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la publicación
+ *     responses:
+ *       200:
+ *         description: ID de reacción encontrado
+ *       400:
+ *         description: Faltan parámetros requeridos
+ *       404:
+ *         description: Reacción no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/api/reacciones/buscar', obtenerReaccionId );
 
 module.exports = router;

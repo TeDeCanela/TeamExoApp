@@ -1,11 +1,11 @@
 
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const ReaccionSchema = new Schema({
     reaccionId: {
         type: Number,
-        required: true,
         unique: true
     },
     tipo: {
@@ -23,5 +23,7 @@ const ReaccionSchema = new Schema({
     fecha: { type: Date,
         default: Date.now }
 });
+
+ReaccionSchema.plugin(AutoIncrement, { inc_field: 'reaccionId' });
 
 module.exports = model('Reaccion', ReaccionSchema);
