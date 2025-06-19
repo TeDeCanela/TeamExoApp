@@ -115,18 +115,20 @@ const eliminarPublicacionModerador = async (req, res = response) => {
     const usuarioRol = req.body.rol || req.query.rol;
 
     try {
-        if(usuarioRol !== 'Moderador' && usuarioRol !== 'Administrador') {
-            return res.status(403).json({
-                msg: 'No tienes permisos para realizar esta acción'
-            });
-        }
-
         const publicacion = await Publicacion.findOne({ identificador: Number(identificador) });
 
         if (!publicacion) {
             return res.status(404).json({
                 msg: 'Publicación no encontrada'
             });
+        }
+
+        if(usuarioRol !== 'Moderador' && usuarioRol !== 'Administrador') {
+            if (publicacion.usuarioId !== Number(req.query.usuarioId || req.body.usuarioId)) {
+                return res.status(403).json({
+                    msg: 'No tienes permisos para realizar esta acción'
+                });
+            }
         }
 
         const publicacionEliminada = await Publicacion.findOneAndUpdate(
@@ -363,6 +365,9 @@ const obtenerPublicacionesUsuarioConRecursos = async (req, res = response) => {
                 }
             },
             {
+                $sort: { fechaCreacion: -1 }
+            },
+            {
                 $lookup: {
                     from: "recursos",
                     localField: "identificador",
@@ -392,6 +397,7 @@ const obtenerPublicacionesUsuarioConRecursos = async (req, res = response) => {
         });
     }
 };
+
 /**
  * @swagger
  * /api/publicaciones/con-recursos:
@@ -425,6 +431,9 @@ const obtenerPublicacionesConRecursos = async (req, res = response) => {
                 $match: { estado: "Publicado" }
             },
             {
+                $sort: { fechaCreacion: -1 }
+            },
+            {
                 $lookup: {
                     from: "recursos",
                     localField: "identificador",
@@ -437,7 +446,7 @@ const obtenerPublicacionesConRecursos = async (req, res = response) => {
                     recurso: {
                         $cond: {
                             if: { $eq: [{ $size: "$recurso" }, 0] },
-                            then: null, // Valor explícito para casos sin recursos
+                            then: null,
                             else: { $arrayElemAt: ["$recurso", 0] }
                         }
                     }
@@ -454,6 +463,7 @@ const obtenerPublicacionesConRecursos = async (req, res = response) => {
         });
     }
 };
+
 
 module.exports = {
     crearPublicacion,

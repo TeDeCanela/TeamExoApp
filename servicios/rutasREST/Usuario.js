@@ -6,7 +6,8 @@ const {
     actualizarUsuario,
     eliminarUsuario,
     actualizarContrasena,
-    obtenerPerfil
+    obtenerPerfil,
+    obtenerUsuarioPorId
 } = require('../../src/controladores/Usuario');
 const validarJWT = require('../../src/middlwares/validarJWT');
 
@@ -187,5 +188,77 @@ router.put('/:usuarioId/contrasena', actualizarContrasena);
  *         description: Error del servidor
  */
 router.get('/perfil', validarJWT, obtenerPerfil);
+
+/**
+ * @swagger
+ * /api/usuarios/{usuarioId}:
+ *   get:
+ *     summary: Obtiene un usuario por su ID
+ *     description: Retorna la información de un usuario específico excluyendo su contraseña
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID numérico del usuario a buscar
+ *     responses:
+ *       200:
+ *         description: Información del usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                   example: true
+ *                 usuario:
+ *                   $ref: '#/components/schemas/Usuario'
+ *       400:
+ *         description: Falta el parámetro usuarioId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: El parámetro usuarioId es requerido
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ok:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: Error interno del servidor
+ *                 error:
+ *                   type: string
+ *                   example: Mensaje detallado del error
+ */
+router.get('/:usuarioId', obtenerUsuarioPorId);
 
 module.exports = router;

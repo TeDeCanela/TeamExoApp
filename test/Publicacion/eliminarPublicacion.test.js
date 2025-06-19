@@ -62,21 +62,42 @@ describe('DELETE /api/publicaciones/:id - eliminarPublicacionModerador', () => {
         expect(res.body.publicacion.estado).toBe('Eliminado');
     });
 
-    test('debería fallar si el usuario es Fan', async () => {
-        const otraPublicacion = await Publicacion.create({
-            identificador: 3,
-            titulo: 'Publicación para fan',
-            contenido: 'Contenido',
+    test('debería permitir al creador eliminar su propia publicación', async () => {
+        const publicacionUsuario = await Publicacion.create({
+            identificador: 4,
+            titulo: 'Mi publicación',
+            contenido: 'Contenido personal',
             estado: 'Publicado',
-            usuarioId: 1,
+            usuarioId: 5,
             fechaCreacion: new Date()
         });
 
         const res = await request(app)
-            .delete(`/api/publicaciones/${otraPublicacion.identificador}`)
+            .delete(`/api/publicaciones/${publicacionUsuario.identificador}`)
             .send({
                 rol: 'Fan',
-                usuarioId: 1
+                usuarioId: 5
+            });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.publicacion.estado).toBe('Eliminado');
+    });
+
+    test('debería fallar si un Fan intenta eliminar publicación de otro usuario', async () => {
+        const publicacionOtroUsuario = await Publicacion.create({
+            identificador: 5,
+            titulo: 'Publicación de otro',
+            contenido: 'Contenido',
+            estado: 'Publicado',
+            usuarioId: 6,
+            fechaCreacion: new Date()
+        });
+
+        const res = await request(app)
+            .delete(`/api/publicaciones/${publicacionOtroUsuario.identificador}`)
+            .send({
+                rol: 'Fan',
+                usuarioId: 7
             });
 
         expect(res.statusCode).toBe(403);

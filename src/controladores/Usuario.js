@@ -326,11 +326,72 @@ const obtenerPerfil = async (req, res = response) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/usuarios/{id}:
+ *   get:
+ *     summary: Obtener un usuario por ID
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usuario encontrado exitosamente
+ *       400:
+ *         description: Parámetro ID faltante
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
+
+const obtenerUsuarioPorId = async (req, res = response) => {
+    try {
+        const { usuarioId  } = req.params;
+
+        if (!usuarioId  || isNaN(Number(usuarioId ))) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Se requiere un ID de usuario válido'
+            });
+        }
+
+        const usuario = await Usuario.findOne(
+            { usuarioId: Number(usuarioId ) },
+            { contrasena: 0 }
+        );
+
+        if (!usuario) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Usuario no encontrado'
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            usuario
+        });
+    } catch (error) {
+        console.error('Error al obtener usuario:', error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error interno del servidor',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+};
+
 module.exports = {
     getUsuarios,
     agregarUsuario,
     actualizarUsuario,
     eliminarUsuario,
     actualizarContrasena,
-    obtenerPerfil
+    obtenerPerfil,
+    obtenerUsuarioPorId
 };
